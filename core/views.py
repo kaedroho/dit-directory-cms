@@ -20,6 +20,7 @@ from django.views.generic.edit import FormView
 from conf.signature import SignatureCheckPermission
 from core import cache, filters, forms, helpers, models, permissions, \
     serializers
+from core.serializers import DomesticContractForm
 from core.upstream_serializers import UpstreamModelSerilaizer
 from core.serializer_mapping import MODELS_SERIALIZERS_MAPPING
 
@@ -342,4 +343,23 @@ class PageTypeView(APIView):
         }
         serializer = serializers.PagesTypesSerializer(data=data)
         serializer.is_valid()
+        return Response(serializer.data)
+
+
+class ExportContactFormAPIView(APIView):
+    permission_classes = [] # todo
+    serializer_class = DomesticContractForm
+
+    def get(self, request, *args, **kwargs):
+        return Response('ok')
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['context'] = {
+            'requesst': self.request
+        }
+        return self.serializer_class(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         return Response(serializer.data)

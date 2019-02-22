@@ -50,7 +50,10 @@ api_urls = [
         r'^pages/types/$',
         core.views.PageTypeView.as_view(),
         name='pages-types-list'
-    )
+    ),
+    url(r'export-contact-form', api_router.wrap_view(
+        core.views.ExportContactFormView.as_view()
+    ))
 ]
 
 
