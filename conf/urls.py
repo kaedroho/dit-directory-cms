@@ -52,7 +52,7 @@ api_urls = [
         name='pages-types-list'
     ),
     url(r'export-contact-form', api_router.wrap_view(
-        core.views.ExportContactFormView.as_view()
+        core.views.ExportContactFormAPIView.as_view()
     ))
 ]
 
