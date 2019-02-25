@@ -370,7 +370,7 @@ class FormPageMetaClass(PageBase):
 
 
 @register_snippet
-class ExportContact(models.Model):
+class AdvocateSignUp(models.Model):
     """Holds submitted export contact form data"""
     name = models.CharField(max_length=50)
     email = models.EmailField()
@@ -390,6 +390,10 @@ class ExportContact(models.Model):
     employees_number = models.CharField(max_length=255, choices=EMPLOYEES_NUMBER_CHOISES)
     currently_export = models.BooleanField()
     advertising_feedback = models.CharField(max_length=255, choices=HEARD_ABOUT_CHOISES)
+
+    class Meta:
+        verbose_name = 'Advocate SignUp Form'
+        verbose_name_plural = 'Advocate SignUp Forms'
 
     def __str__(self):
         return self.name
