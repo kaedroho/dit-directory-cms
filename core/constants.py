@@ -59,13 +59,13 @@ COMPANY_SECTOR_CHOISES = (
 )
 
 EMPLOYEES_NUMBER_CHOISES = (
-    ('0','Less than 10'),
+    ('0', 'Less than 10'),
     ('1', '10-50'),
     ('2', '50+'),
 )
 
 HEARD_ABOUT_CHOISES = (
-    ('0','In the press'),
+    ('0', 'In the press'),
     ('1', 'International Trade Advisor'),
     ('2', 'Anothercompany'),
     ('3', 'Tradeassociation'),

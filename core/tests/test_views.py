@@ -447,3 +447,94 @@ def test_pages_types_view(admin_client):
 def test_pages_view(admin_client):
     response = admin_client.get('/api/pages/')
     assert response.status_code == 200
+
+
+def test_advocate_sign_up_landing_response(admin_client):
+    response = admin_client.get('/api/advocate-signup-form/')
+    assert response.status_code == 200
+    response_data = response.json()
+    assert 'fields' in response_data
+
+    # 'id' and 'created_at' cannot be in field list
+    fields_name_list = [m['name'] for m in response_data.get('fields')]
+    assert fields_name_list == [
+        'name',
+        'email',
+        'phone_number',
+        'company_name',
+        'company_location',
+        'sector',
+        'company_website',
+        'employees_number',
+        'currently_export',
+        'advertising_feedback'
+    ]
+
+
+def test_advocate_sign_up_post(admin_client):
+    post_data = {
+        "name": "John Wick",
+        "email": "johnwick@gmail.com",
+        "phone_number": "+441112223344",
+        "company_name": "Mr",
+        "company_location": "Mr",
+        "sector": "0",
+        "company_website": "231",
+        "employees_number": "0",
+        "currently_export": True,
+        "advertising_feedback": "0",
+    }
+    response = admin_client.post('/api/advocate-signup-form/', post_data)
+    assert response.status_code == 201
+
+
+def test_advocate_sign_up_post_without_phone_number(admin_client):
+    post_data_without_phone_number = {
+        "name": "John Wick",
+        "email": "johnwick@gmail.com",
+        "company_name": "Mr",
+        "company_location": "Mr",
+        "sector": "0",
+        "company_website": "231",
+        "employees_number": "0",
+        "currently_export": True,
+        "advertising_feedback": "0",
+    }
+
+    response = admin_client.post(
+        '/api/advocate-signup-form/',
+        post_data_without_phone_number
+    )
+
+    assert response.status_code == 400
+    response_data = response.json()
+    assert 'phone_number' in response_data
+    assert response_data['phone_number'] == ['This field is required.']
+
+
+def test_advocate_sign_up_post_with_invalid_phone_number(admin_client):
+    post_data_without_phone_number = {
+        "name": "John Wick",
+        "email": "johnwick@gmail.com",
+        "phone_number": "++2112223344",
+        "company_name": "Mr",
+        "company_location": "Mr",
+        "sector": "0",
+        "company_website": "231",
+        "employees_number": "0",
+        "currently_export": True,
+        "advertising_feedback": "0",
+    }
+
+    response = admin_client.post(
+        '/api/advocate-signup-form/',
+        post_data_without_phone_number
+    )
+
+    assert response.status_code == 400
+    response_data = response.json()
+    assert 'phone_number' in response_data
+    assert response_data['phone_number'] == [
+        'Phone number must be entered in the format: '
+        '\'+999999999\'. Up to 15 digits allowed.'
+    ]

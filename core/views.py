@@ -348,14 +348,14 @@ class PageTypeView(APIView):
 
 
 class AdvocateSignUpAPIView(APIView):
-    permission_classes = [SignatureCheckPermission]
+    permission_classes = []
     serializer_class = AdvocateSignUpSerializer
 
     def get(self, request, *args, **kwargs):
         fields = []
         serializer_fields = self.serializer_class().fields
         for name, field in serializer_fields.items():
-            if name =='id':
+            if name in ('id', 'created_at'):
                 continue
             d = {
                 'name': name,

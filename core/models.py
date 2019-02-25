@@ -26,7 +26,8 @@ from django.utils import translation
 from wagtail.snippets.models import register_snippet
 
 from core import constants, forms
-from core.constants import COMPANY_SECTOR_CHOISES, EMPLOYEES_NUMBER_CHOISES, HEARD_ABOUT_CHOISES
+from core.constants import COMPANY_SECTOR_CHOISES, \
+    EMPLOYEES_NUMBER_CHOISES, HEARD_ABOUT_CHOISES
 from core.wagtail_fields import FormHelpTextField, FormLabelField
 
 
@@ -378,7 +379,8 @@ class AdvocateSignUp(models.Model):
         validators=[
             RegexValidator(
                 regex=r'^\+?1?\d{9,15}$',
-                message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
+                message="Phone number must be entered in the format:"
+                        " '+999999999'. Up to 15 digits allowed."
             )
         ],
         max_length=17
@@ -387,11 +389,16 @@ class AdvocateSignUp(models.Model):
     company_location = models.CharField(max_length=50)
     sector = models.CharField(max_length=255, choices=COMPANY_SECTOR_CHOISES)
     company_website = models.CharField(max_length=255)
-    employees_number = models.CharField(max_length=255, choices=EMPLOYEES_NUMBER_CHOISES)
+    employees_number = models.CharField(
+        max_length=255,
+        choices=EMPLOYEES_NUMBER_CHOISES
+    )
     currently_export = models.BooleanField()
-    advertising_feedback = models.CharField(max_length=255, choices=HEARD_ABOUT_CHOISES)
+    advertising_feedback = models.CharField(
+        max_length=255,
+        choices=HEARD_ABOUT_CHOISES
+    )
     created_at = models.DateField(auto_now_add=True)
-
 
     class Meta:
         verbose_name = 'Advocate SignUp Form'
