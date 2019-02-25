@@ -390,6 +390,7 @@ class AdvocateSignUp(models.Model):
     employees_number = models.CharField(max_length=255, choices=EMPLOYEES_NUMBER_CHOISES)
     currently_export = models.BooleanField()
     advertising_feedback = models.CharField(max_length=255, choices=HEARD_ABOUT_CHOISES)
+    created_at = models.DateField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'Advocate SignUp Form'
