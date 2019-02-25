@@ -4,6 +4,7 @@ from urllib.parse import urljoin, urlencode
 
 from directory_constants.constants import choices
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 from modeltranslation import settings as modeltranslation_settings
 from modeltranslation.translator import translator
 from modeltranslation.utils import build_localized_fieldname
@@ -22,8 +23,10 @@ from django.db import transaction
 from django.forms import MultipleChoiceField
 from django.shortcuts import redirect
 from django.utils import translation
+from wagtail.snippets.models import register_snippet
 
 from core import constants, forms
+from core.constants import COMPANY_SECTOR_CHOISES, EMPLOYEES_NUMBER_CHOISES, HEARD_ABOUT_CHOISES
 from core.wagtail_fields import FormHelpTextField, FormLabelField
 
 
@@ -364,3 +367,29 @@ class FormPageMetaClass(PageBase):
         )
 
         return super().__new__(mcls, name, bases, attrs)
+
+
+@register_snippet
+class ExportContact(models.Model):
+    """Holds submitted export contact form data"""
+    name = models.CharField(max_length=50)
+    email = models.EmailField()
+    phone_number = models.CharField(
+        validators=[
+            RegexValidator(
+                regex=r'^\+?1?\d{9,15}$',
+                message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
+            )
+        ],
+        max_length=17
+    )
+    company_name = models.CharField(max_length=50)
+    company_location = models.CharField(max_length=50)
+    sector = models.CharField(max_length=255, choices=COMPANY_SECTOR_CHOISES)
+    company_website = models.CharField(max_length=255)
+    employees_number = models.CharField(max_length=255, choices=EMPLOYEES_NUMBER_CHOISES)
+    currently_export = models.BooleanField()
+    advertising_feedback = models.CharField(max_length=255, choices=HEARD_ABOUT_CHOISES)
+
+    def __str__(self):
+        return self.name
