@@ -392,9 +392,11 @@ class AdvocateSignUp(models.Model):
     advertising_feedback = models.CharField(max_length=255, choices=HEARD_ABOUT_CHOISES)
     created_at = models.DateField(auto_now_add=True)
 
+
     class Meta:
         verbose_name = 'Advocate SignUp Form'
         verbose_name_plural = 'Advocate SignUp Forms'
+        ordering = ('-created_at', )
 
     def __str__(self):
         return self.name

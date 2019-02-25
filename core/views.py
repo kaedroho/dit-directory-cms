@@ -1,4 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import status
 
 from rest_framework.exceptions import ValidationError
 from rest_framework.renderers import JSONRenderer
@@ -20,7 +21,7 @@ from django.views.generic.edit import FormView
 from conf.signature import SignatureCheckPermission
 from core import cache, filters, forms, helpers, models, permissions, \
     serializers
-from core.serializers import DomesticContractForm
+from core.serializers import AdvocateSignUpSerializer
 from core.upstream_serializers import UpstreamModelSerilaizer
 from core.serializer_mapping import MODELS_SERIALIZERS_MAPPING
 
@@ -346,12 +347,26 @@ class PageTypeView(APIView):
         return Response(serializer.data)
 
 
-class ExportContactFormAPIView(APIView):
-    permission_classes = [] # todo
-    serializer_class = DomesticContractForm
+class AdvocateSignUpAPIView(APIView):
+    permission_classes = [SignatureCheckPermission]
+    serializer_class = AdvocateSignUpSerializer
 
     def get(self, request, *args, **kwargs):
-        return Response('ok')
+        fields = []
+        serializer_fields = self.serializer_class().fields
+        for name, field in serializer_fields.items():
+            if name =='id':
+                continue
+            d = {
+                'name': name,
+                'required': field.required,
+                'choices': getattr(field, 'choices', None)
+            }
+            fields.append(d)
+        response_data = {
+            'fields': fields
+        }
+        return Response(response_data)
 
     def get_serializer(self, *args, **kwargs):
         kwargs['context'] = {
@@ -362,4 +377,5 @@ class ExportContactFormAPIView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        return Response(serializer.data)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -51,8 +51,8 @@ api_urls = [
         core.views.PageTypeView.as_view(),
         name='pages-types-list'
     ),
-    url(r'export-contact-form', api_router.wrap_view(
-        core.views.ExportContactFormAPIView.as_view()
+    url(r'advocate-signup-form', api_router.wrap_view(
+        core.views.AdvocateSignUpAPIView.as_view()
     ))
 ]
 

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from core import fields
-from core.constants import COMPANY_SECTOR_CHOISES, EMPLOYEES_NUMBER_CHOISES, HEARD_ABOUT_CHOISES
+from core.models import AdvocateSignUp
 
 
 class BasePageSerializer(serializers.Serializer):
@@ -45,15 +45,8 @@ class WagtailPageSerializer(serializers.Serializer):
     slug = serializers.CharField()
 
 
-class DomesticContractForm(serializers.Serializer):
-    contact_name = serializers.CharField()
-    contact_email = serializers.EmailField(label='Contact Email')
-    contact_number = serializers.IntegerField()
-    company_name = serializers.CharField()
-    company_location = serializers.CharField()
-    sector = serializers.ChoiceField(choices=COMPANY_SECTOR_CHOISES)
-    company_website = serializers.URLField()
-    employees_number = serializers.ChoiceField(choices=EMPLOYEES_NUMBER_CHOISES)
-    currently_export = serializers.BooleanField()
-    advertising_feedback = serializers.ChoiceField(choices=HEARD_ABOUT_CHOISES)
+class AdvocateSignUpSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = AdvocateSignUp
+        fields = '__all__'
