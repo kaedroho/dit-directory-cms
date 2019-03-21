@@ -12,8 +12,6 @@ import modelcluster.fields
 
 class Migration(migrations.Migration):
 
-    replaces = [('export_readiness', '0031_internationallandingpage'), ('export_readiness', '0032_auto_20181012_1507'), ('export_readiness', '0033_auto_20181023_1600'), ('export_readiness', '0034_auto_20181024_1112'), ('export_readiness', '0035_contactusguidance'), ('export_readiness', '0036_auto_20181105_1258'), ('export_readiness', '0037_auto_20181106_0952'), ('export_readiness', '0038_auto_20181106_0953'), ('export_readiness', '0039_contactsuccesspage_topic'), ('export_readiness', '0040_auto_20181121_1643'), ('export_readiness', '0041_campaignpage_marketingpages'), ('export_readiness', '0042_contactsuccesspages_contactusguidancepages'), ('export_readiness', '0043_auto_20181205_1413'), ('export_readiness', '0044_auto_20181214_1605'), ('export_readiness', '0045_auto_20190115_1058'), ('export_readiness', '0046_euexitformpages'), ('export_readiness', '0047_allcontactpagespage'), ('export_readiness', '0048_auto_20190206_1355'), ('export_readiness', '0049_auto_20190207_0924'), ('export_readiness', '0050_auto_20190219_1633')]
-
     dependencies = [
         ('export_readiness', '0020_articlelistingpage_articlepage_topiclandingpage_squashed_0030_auto_20181005_1449'),
         ('wagtailimages', '0021_image_file_hash'),

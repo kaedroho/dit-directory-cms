@@ -12,8 +12,6 @@ import modelcluster.fields
 
 class Migration(migrations.Migration):
 
-    replaces = [('great_international', '0001_initial'), ('great_international', '0002_auto_20190206_1146'), ('great_international', '0003_internationalarticlelistingpage'), ('great_international', '0003_auto_20190211_1202'), ('great_international', '0004_merge_20190212_1003'), ('great_international', '0005_internationalukhqpages'), ('great_international', '0006_internationaltopiclandingpage'), ('great_international', '0007_auto_20190219_1114'), ('great_international', '0008_auto_20190222_1554'), ('great_international', '0008_auto_20190222_1230'), ('great_international', '0009_merge_20190225_1214'), ('great_international', '0010_auto_20190228_0819'), ('great_international', '0011_auto_20190228_1051'), ('great_international', '0012_internationalsectorpage'), ('great_international', '0013_auto_20190301_1227'), ('great_international', '0014_auto_20190304_1215'), ('great_international', '0015_auto_20190306_1521')]
-
     initial = True
 
     dependencies = [
