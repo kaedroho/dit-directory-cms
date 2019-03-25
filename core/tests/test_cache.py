@@ -89,7 +89,7 @@ def test_cache_populator(translated_page):
     # translated_page is a IndustryPage, which is registered for caching in
     # find_a_supplier.cache
     cache.CachePopulator.populate(translated_page.pk)
-    for language_code in translated_page.translated_languages:
+    for language_code in [settings.LANGUAGE_CODE]:
         assert cache.PageCache.get(
             slug=translated_page.slug,
             params={
@@ -104,7 +104,7 @@ def test_region_aware_cache_populator():
     page = InternationalArticleListingPageFactory()
 
     cache.RegionAwareCachePopulator.populate(page.pk)
-    for language_code in page.translated_languages:
+    for language_code in [settings.LANGUAGE_CODE]:
         for region in cache.RegionAwareCachePopulator.regions:
             assert cache.PageCache.get(
                 slug=page.slug,
@@ -121,7 +121,7 @@ def test_region_aware_cache_populator_async():
     page = InternationalArticleListingPageFactory()
 
     cache.RegionAwareCachePopulator.populate_async(page)
-    for language_code in page.translated_languages:
+    for language_code in [settings.LANGUAGE_CODE]:
         for region in cache.RegionAwareCachePopulator.regions:
             assert cache.PageCache.get(
                 slug=page.slug,
@@ -199,7 +199,7 @@ def test_subscriber_delete(mock_delete):
         ]
 
     instance = mock.Mock(
-        slug='some-slug', service_name='thing', translated_languages=['en-gb']
+        slug='some-slug', service_name='thing'
     )
     TestSubscriber.delete(sender=None, instance=instance)
 

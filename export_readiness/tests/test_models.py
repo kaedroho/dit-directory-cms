@@ -35,18 +35,10 @@ def test_app_models():
     ]
 
 
-@pytest.mark.parametrize('model', [
-    models.ExportReadinessApp,
-    find_a_supplier.models.FindASupplierApp,
-])
-def test_app_required_translatable_fields(model):
-    assert model.get_required_translatable_fields() == []
-
-
 @pytest.mark.django_db
 def test_set_slug():
     instance = models.ExportReadinessApp.objects.create(
-        title_en_gb='the app',
+        title='the app',
         depth=2,
         path='/thing',
     )
@@ -69,7 +61,7 @@ def test_folders_set_title(folder_page_class):
         path='/thing',
     )
 
-    assert instance.title_en_gb == instance.get_verbose_name()
+    assert instance.title == instance.get_verbose_name()
 
 
 @pytest.mark.django_db

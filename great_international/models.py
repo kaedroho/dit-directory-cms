@@ -25,10 +25,6 @@ class GreatInternationalApp(ExclusivePageMixin, ServiceMixin, BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
 
     @classmethod
-    def get_required_translatable_fields(cls):
-        return []
-
-    @classmethod
     def allowed_subpage_models(cls):
         return [InternationalArticleListingPage,
                 InternationalTopicLandingPage,
@@ -445,7 +441,7 @@ class InternationalSectorPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
         FieldPanel('tags', widget=CheckboxSelectMultiple)
     ]
@@ -530,7 +526,7 @@ class InternationalHomePage(ExclusivePageMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
     ]
 
@@ -545,7 +541,7 @@ class InternationalRegionPage(BasePage):
     tags = ParentalManyToManyField(Tag, blank=True)
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
         FieldPanel('tags', widget=CheckboxSelectMultiple)
     ]
@@ -563,7 +559,7 @@ class InternationalLocalisedFolderPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
     ]
 
@@ -649,7 +645,7 @@ class InternationalArticlePage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
         FieldPanel('tags', widget=CheckboxSelectMultiple)
     ]
@@ -698,7 +694,7 @@ class InternationalArticleListingPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
         FieldPanel('tags', widget=CheckboxSelectMultiple)
     ]
@@ -928,7 +924,7 @@ class InternationalCampaignPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
         FieldPanel('tags', widget=CheckboxSelectMultiple)
     ]
@@ -969,7 +965,7 @@ class InternationalTopicLandingPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
         FieldPanel('tags', widget=CheckboxSelectMultiple)
     ]
@@ -1096,7 +1092,7 @@ class InternationalCuratedTopicLandingPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         SearchEngineOptimisationPanel(),
         FieldPanel('slug'),
         FieldPanel('tags', widget=CheckboxSelectMultiple)
@@ -1204,7 +1200,7 @@ class InternationalGuideLandingPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         SearchEngineOptimisationPanel(),
         FieldPanel('slug'),
         FieldPanel('tags', widget=CheckboxSelectMultiple)

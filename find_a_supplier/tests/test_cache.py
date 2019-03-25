@@ -39,7 +39,7 @@ def test_cache_retrieval_external_change(admin_client):
     factories.IndustryPageFactory.create(live=False)
     # and a live industry page
     industry_page = factories.IndustryPageFactory.create(
-        introduction_text_en_gb='first value'
+        introduction_text='first value'
     )
 
     # and an external page that the page is subscribed to is created

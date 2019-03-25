@@ -10,14 +10,10 @@ def test_app_models():
     ]
 
 
-def test_app_required_translatable_fields():
-    assert models.ComponentsApp.get_required_translatable_fields() == []
-
-
 @pytest.mark.django_db
 def test_set_slug():
     instance = models.ComponentsApp.objects.create(
-        title_en_gb='the app',
+        title='the app',
         depth=2,
         path='/thing',
     )

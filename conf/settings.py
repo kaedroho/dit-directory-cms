@@ -45,9 +45,6 @@ APPEND_SLASH = True
 # Application definition
 
 INSTALLED_APPS = [
-    'wagtail_modeltranslation',
-    'wagtail_modeltranslation.makemigrations',
-    'wagtail_modeltranslation.migrate',
     'django.contrib.auth',
     'django.contrib.staticfiles',
     'django.contrib.contenttypes',
@@ -99,7 +96,6 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'core.middleware.LocaleQuerystringMiddleware',
     'directory_components.middleware.RobotsIndexControlHeaderMiddlware',
 ]
 
@@ -440,10 +436,6 @@ EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', '')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = env.str('DEFAULT_FROM_EMAIL', '')
-
-MODELTRANSLATION_CUSTOM_FIELDS = ('RichTextField', )
-MODELTRANSLATION_FALLBACK_LANGUAGES = ()
-WAGTAILMODELTRANSLATION_TRANSLATE_SLUGS = False
 
 EU_EXIT_NEWS_LISTING_PAGE_SLUG = env.str(
     'EU_EXIT_NEWS_LISTING_PAGE_SLUG', 'eu-exit-news'

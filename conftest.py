@@ -29,16 +29,16 @@ def root_page():
 def untranslated_page(root_page):
     return IndustryPageFactory(
         parent=root_page,
-        title_en_gb='ENGLISH',
-        breadcrumbs_label_en_gb='label',
-        introduction_text_en_gb='lede',
-        search_description_en_gb='description',
-        hero_text_en_gb='hero text',
-        introduction_column_one_text_en_gb='lede column one',
-        introduction_column_two_text_en_gb='lede column two',
-        introduction_column_three_text_en_gb='lede column three',
-        company_list_text_en_gb='companies',
-        company_list_call_to_action_text_en_gb='view all',
+        title='title',
+        breadcrumbs_label='label',
+        introduction_text='lede',
+        search_description='description',
+        hero_text='hero text',
+        introduction_column_one_tex='lede column one',
+        introduction_column_two_text='lede column two',
+        introduction_column_three_text='lede column three',
+        company_list_text='companies',
+        company_list_call_to_action_text='view all',
     )
 
 

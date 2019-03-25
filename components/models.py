@@ -16,10 +16,6 @@ class ComponentsApp(ExclusivePageMixin, ServiceMixin, BasePage):
     slug_identity = 'components-app'
     service_name_value = cms.COMPONENTS
 
-    @classmethod
-    def get_required_translatable_fields(cls):
-        return []
-
 
 class BannerComponent(BasePage):
     service_name_value = cms.COMPONENTS
@@ -39,7 +35,7 @@ class BannerComponent(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
     ]
 

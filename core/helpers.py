@@ -6,7 +6,6 @@ import bleach
 import markdown
 
 from bleach_whitelist import markdown_tags, markdown_attrs
-from modeltranslation.utils import build_localized_fieldname
 from wagtail.admin.edit_handlers import ObjectList, TabbedInterface
 from wagtail.core import hooks
 from wagtail.core.models import Page
@@ -28,53 +27,13 @@ class CachedResponse(JsonResponse):
     pass
 
 
-def translate_panel(panel, language_code):
-    """Convert an English admin editor field ("panel") to e.g, French.
-
-    That is achieved by cloning the English panel and then changing the
-    field_name property of the clone.
-
-    Some panels are not fields, but really are fieldsets (which have no name)
-    so we just clone then without trying to set the name.
-
-    Some panels have child panels, so those child panels are translated too.
-
-    Arguments:
-        panel {Panel} -- English panel to convert
-        language_code {str} -- Target conversion language
-
-    Returns:
-        Panel -- Translated panel
-
-    """
-
-    panel = copy.deepcopy(panel)
-    if hasattr(panel, 'field_name'):
-        panel.field_name = build_localized_fieldname(
-            field_name=panel.field_name, lang=language_code
-        )
-    if hasattr(panel, 'relation_name'):
-        panel.relation_name = build_localized_fieldname(
-            field_name=panel.relation_name, lang=language_code
-        )
-    if hasattr(panel, 'children'):
-        panel.children = [
-            translate_panel(child, language_code) for child in panel.children
-        ]
-    return panel
-
-
 def make_translated_interface(
     content_panels, settings_panels=None, other_panels=None
-):
-    panels = []
-    for code, name in settings.LANGUAGES:
-        panels.append(
-            ObjectList(
-                [translate_panel(panel, code) for panel in content_panels],
-                heading=name
-            )
-        )
+):  # DELETEME
+    panels = [ObjectList(
+        content_panels,
+        heading="Content"
+    )]
     if settings_panels:
         panels.append(
             ObjectList(

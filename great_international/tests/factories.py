@@ -13,7 +13,7 @@ class InternationalSectorPageFactory(wagtail_factories.PageFactory):
         model = models.InternationalSectorPage
 
     slug = factory.Sequence(lambda n: '123-555-{0}'.format(n))
-    title_en_gb = factory.Sequence(lambda n: '123-555-{0}'.format(n))
+    title = factory.Sequence(lambda n: '123-555-{0}'.format(n))
     last_published_at = timezone.now()
     parent = None
 
@@ -100,7 +100,7 @@ class InternationalHomePageFactory(wagtail_factories.PageFactory):
     tariffs_link = 'http://foo.com'
     tariffs_description = factory.fuzzy.FuzzyText(length=10)
     slug = factory.Sequence(lambda n: '123-555-{0}'.format(n))
-    title_en_gb = factory.Sequence(lambda n: '123-555-{0}'.format(n))
+    title = factory.Sequence(lambda n: '123-555-{0}'.format(n))
     last_published_at = timezone.now()
     parent = None
 
@@ -112,7 +112,7 @@ class InternationalArticleListingPageFactory(wagtail_factories.PageFactory):
 
     landing_page_title = factory.fuzzy.FuzzyText(length=10)
     slug = factory.Sequence(lambda n: '123-555-{0}'.format(n))
-    title_en_gb = factory.Sequence(lambda n: '123-555-{0}'.format(n))
+    title = factory.Sequence(lambda n: '123-555-{0}'.format(n))
     last_published_at = timezone.now()
     parent = None
 
@@ -126,7 +126,7 @@ class InternationalArticlePageFactory(wagtail_factories.PageFactory):
     article_teaser = factory.fuzzy.FuzzyText(length=10)
     article_body_text = factory.fuzzy.FuzzyText(length=10)
     slug = factory.Sequence(lambda n: '123-555-{0}'.format(n))
-    title_en_gb = factory.Sequence(lambda n: '123-555-{0}'.format(n))
+    title = factory.Sequence(lambda n: '123-555-{0}'.format(n))
     last_published_at = timezone.now()
     parent = None
 
@@ -139,7 +139,7 @@ class InternationalCampaignPageFactory(wagtail_factories.PageFactory):
     campaign_teaser = factory.fuzzy.FuzzyText(length=10)
     campaign_heading = factory.fuzzy.FuzzyText(length=10)
     slug = factory.Sequence(lambda n: '123-555-{0}'.format(n))
-    title_en_gb = factory.Sequence(lambda n: '123-555-{0}'.format(n))
+    title = factory.Sequence(lambda n: '123-555-{0}'.format(n))
     last_published_at = timezone.now()
     parent = None
     section_one_heading = factory.fuzzy.FuzzyText(length=10)
@@ -162,7 +162,7 @@ class InternationalTopicLandingPageFactory(wagtail_factories.PageFactory):
 
     landing_page_title = factory.fuzzy.FuzzyText(length=10)
     slug = factory.Sequence(lambda n: '123-555-{0}'.format(n))
-    title_en_gb = factory.Sequence(lambda n: '123-555-{0}'.format(n))
+    title = factory.Sequence(lambda n: '123-555-{0}'.format(n))
     parent = None
 
 
@@ -190,7 +190,7 @@ class InternationalCuratedTopicLandingPageFactory(
 
     display_title = factory.fuzzy.FuzzyText(length=10)
     slug = factory.Sequence(lambda n: '123-555-{0}'.format(n))
-    title_en_gb = factory.fuzzy.FuzzyText(length=10)
+    title = factory.fuzzy.FuzzyText(length=10)
     hero_image = factory.SubFactory(
         wagtail_factories.ImageFactory
     )
@@ -223,7 +223,7 @@ class InternationalGuideLandingPageFactory(wagtail_factories.PageFactory):
 
     display_title = factory.fuzzy.FuzzyText(length=10)
     slug = factory.Sequence(lambda n: '123-555-{0}'.format(n))
-    title_en_gb = factory.fuzzy.FuzzyText(length=10)
+    title = factory.fuzzy.FuzzyText(length=10)
     hero_image = factory.SubFactory(wagtail_factories.ImageFactory)
     teaser = factory.fuzzy.FuzzyText(length=10)
 
@@ -247,7 +247,7 @@ class InternationalRegionPageFactory(wagtail_factories.PageFactory):
         model = models.InternationalRegionPage
 
     slug = factory.Sequence(lambda n: '123-555-{0}'.format(n))
-    title_en_gb = factory.Sequence(lambda n: '123-555-{0}'.format(n))
+    title = factory.Sequence(lambda n: '123-555-{0}'.format(n))
     parent = None
 
 
@@ -257,5 +257,5 @@ class InternationalLocalisedFolderPageFactory(wagtail_factories.PageFactory):
         model = models.InternationalLocalisedFolderPage
 
     slug = factory.Sequence(lambda n: '123-555-{0}'.format(n))
-    title_en_gb = factory.Sequence(lambda n: '123-555-{0}'.format(n))
+    title = factory.Sequence(lambda n: '123-555-{0}'.format(n))
     parent = factory.SubFactory(InternationalRegionPageFactory)
