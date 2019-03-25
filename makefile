@@ -29,10 +29,7 @@ django_webserver:
 
 
 DEBUG_CREATE_DB := \
-	psql -h localhost -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = '$$DB_NAME'" | \
-	grep -q 1 || psql -h localhost -U postgres -c "CREATE DATABASE $$DB_NAME"; \
-	psql -h localhost -U postgres -tc "SELECT 1 FROM pg_roles WHERE rolname = '$$DB_USER'" | \
-	grep -q 1 || echo "CREATE USER $$DB_USER WITH PASSWORD '$$DB_PASSWORD'; GRANT ALL PRIVILEGES ON DATABASE \"$$DB_NAME\" to $$DB_USER; ALTER USER $$DB_USER CREATEDB" | psql -h localhost -U postgres
+	createdb $$DB_NAME
 
 debug_db:
 	$(DEBUG_SET_ENV_VARS) && $(DEBUG_CREATE_DB)
@@ -56,9 +53,9 @@ DEBUG_SET_ENV_VARS := \
 	export SIGNATURE_SECRET=debug; \
 	export BASE_URL=cms.trade.great; \
 	export DB_NAME=directory_cms_debug; \
-	export DB_USER=debug; \
-	export DB_PASSWORD=debug; \
-	export DATABASE_URL=postgres://debug:debug@localhost:5432/directory_cms_debug; \
+	export DB_USER=karl; \
+	export DB_PASSWORD=; \
+	export DATABASE_URL=postgres:///directory_cms_debug; \
 	export CSRF_COOKIE_SECURE=false; \
 	export APP_URL_EXPORT_READINESS=http://exred.trade.great:8007; \
 	export APP_URL_FIND_A_SUPPLIER=http://supplier.trade.great:8005; \
