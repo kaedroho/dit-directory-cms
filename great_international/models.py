@@ -1,4 +1,7 @@
+from uuid import UUID
+
 from directory_constants.constants import cms
+from django.core.exceptions import ValidationError
 from django.forms import Textarea, CheckboxSelectMultiple
 from django.utils.text import slugify
 from modelcluster.fields import ParentalManyToManyField
@@ -6,6 +9,8 @@ from wagtail.admin.edit_handlers import (
     HelpPanel, FieldPanel, FieldRowPanel, MultiFieldPanel, PageChooserPanel
 )
 from wagtail.images.edit_handlers import ImageChooserPanel
+
+from wagtail_i18n.models import Language, Locale, Region, TranslatablePageMixin
 
 from django.db import models
 
@@ -26,11 +31,79 @@ class GreatInternationalApp(ExclusivePageMixin, ServiceMixin, BasePage):
 
     @classmethod
     def allowed_subpage_models(cls):
-        return [InternationalArticleListingPage,
-                InternationalTopicLandingPage,
-                InternationalCuratedTopicLandingPage,
-                InternationalRegionPage,
+        return [InternationalRegionRootPage,
                 InternationalHomePage]
+
+
+# Structural models
+
+# Contains InternationalLocaleRootPage instances for a region
+class InternationalRegionRootPage(BasePage):
+    service_name_value = cms.GREAT_INTERNATIONAL
+
+    region = models.OneToOneField(Region, on_delete=models.PROTECT, related_name='root_page')
+
+    parent_page_types = ['GreatInternationalApp']
+    subpage_types = ['InternationalLocaleRootPage']
+
+    content_panels = [
+        FieldPanel('region'),
+    ]
+
+    def clean(self):
+        self.title = str(self.region.name)
+        self.slug = self.region.slug
+
+        return super().clean()
+
+
+# Bucket of content for a locale (region/language combination) or core content
+class InternationalLocaleRootPage(TranslatablePageMixin, BasePage):
+    service_name_value = cms.GREAT_INTERNATIONAL
+
+    # We use a constant value for "translation_key" as all locale root pages are translations of each other
+    CONSTANT_TRANSLATION_KEY = UUID('e8114d17-1bca-48f2-b4cb-7c855eb0466b')
+
+    language = models.ForeignKey(Language, on_delete=models.PROTECT, related_name='root_pages')
+
+    parent_page_types = ['InternationalRegionRootPage']
+    subpage_types = [
+        'InternationalArticleListingPage',
+        'InternationalTopicLandingPage',
+        'InternationalCuratedTopicLandingPage',
+        'InternationalLocalisedFolderPage'
+    ]
+
+    def save(self, *args, **kwargs):
+        # Set translation_key and locale.
+        # As this is the root page of the localised site, we must set this manually as
+        # it doesn't have a translatable parent to inherit it from
+        self.translation_key = self.CONSTANT_TRANSLATION_KEY
+
+        self.title = self.language.get_display_name()
+
+        if self.locale_id is None:
+            language = self.language
+            region = self.get_parent().specific.region
+            self.locale = Locale.objects.filter(language=language, region=region).first()
+
+        self.slug = self.locale.region.slug + '-' + self.language.code
+
+        # Make sure a locale root page doesn't already exist for this locale
+        # Note: Not bothering to filter on translation_key as all instances of this model should
+        # have the same value for that
+        other_root_pages = InternationalLocaleRootPage.objects.filter(locale=self.locale)
+
+        if self.pk:
+            other_root_pages = other_root_pages.exclude(pk=self.pk)
+        if other_root_pages.exists():
+            raise ValidationError({'language': ["A Locale Root Page with this language already exists in this region."]})
+
+        return super().save(*args, **kwargs)
+
+    content_panels = [
+        FieldPanel('language'),
+    ]
 
 
 class InternationalSectorPage(BasePage):
@@ -531,7 +604,10 @@ class InternationalHomePage(ExclusivePageMixin, BasePage):
     ]
 
 
+# DELETEME: No longer required
 class InternationalRegionPage(BasePage):
+    creatable = False
+
     service_name_value = cms.GREAT_INTERNATIONAL
     parent_page_types = ['great_international.GreatInternationalApp']
     subpage_types = [
@@ -550,6 +626,7 @@ class InternationalRegionPage(BasePage):
         return super().save(*args, **kwargs)
 
 
+# DELETEME: No longer required
 class InternationalLocalisedFolderPage(BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
     parent_page_types = ['great_international.InternationalRegionPage']
@@ -654,7 +731,7 @@ class InternationalArticlePage(BasePage):
 class InternationalArticleListingPage(BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
     parent_page_types = [
-        'great_international.GreatInternationalApp',
+        'great_international.InternationalLocaleRootPage',
         'great_international.InternationalTopicLandingPage'
     ]
     subpage_types = [
@@ -932,7 +1009,7 @@ class InternationalCampaignPage(BasePage):
 
 class InternationalTopicLandingPage(BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
-    parent_page_types = ['great_international.GreatInternationalApp']
+    parent_page_types = ['great_international.InternationalLocaleRootPage']
     subpage_types = [
         'great_international.InternationalArticleListingPage',
         'great_international.InternationalCampaignPage',
@@ -973,7 +1050,7 @@ class InternationalTopicLandingPage(BasePage):
 
 class InternationalCuratedTopicLandingPage(BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
-    parent_page_types = ['great_international.GreatInternationalApp']
+    parent_page_types = ['great_international.InternationalLocaleRootPage']
     subpage_types = [
         'great_international.InternationalArticlePage',
         'great_international.InternationalGuideLandingPage',
