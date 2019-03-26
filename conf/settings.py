@@ -80,7 +80,9 @@ INSTALLED_APPS = [
     'invest.apps.InvestConfig',
     'components.apps.ComponentsConfig',
     'activitystream.apps.ActivityStreamConfig',
-    'django_filters'
+    'django_filters',
+    'wagtail_i18n',
+    'wagtail_i18n.plugins.regions_admin',
 ]
 
 MIDDLEWARE_CLASSES = [

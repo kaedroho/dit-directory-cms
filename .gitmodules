@@ -1,0 +1,3 @@
+[submodule "wagtail-i18n-poc"]
+	path = wagtail_i18n_poc
+	url = git@git.torchbox.com:karl/wagtail-i18n-poc.git
