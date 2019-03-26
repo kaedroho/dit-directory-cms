@@ -45,6 +45,9 @@ APPEND_SLASH = True
 # Application definition
 
 INSTALLED_APPS = [
+    # Must be above wagtail.admin
+    'wagtail_i18n.plugins.language_switch',
+
     'django.contrib.auth',
     'django.contrib.staticfiles',
     'django.contrib.contenttypes',
