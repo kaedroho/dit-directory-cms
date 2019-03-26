@@ -106,7 +106,7 @@ class InternationalLocaleRootPage(TranslatablePageMixin, BasePage):
     ]
 
 
-class InternationalSectorPage(BasePage):
+class InternationalSectorPage(TranslatablePageMixin, BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
     parent_page_types = ['great_international.InternationalTopicLandingPage']
     subpage_types = []
@@ -646,7 +646,7 @@ class InternationalLocalisedFolderPage(BasePage):
         return super().save(*args, **kwargs)
 
 
-class InternationalArticlePage(BasePage):
+class InternationalArticlePage(TranslatablePageMixin, BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
     parent_page_types = [
         'great_international.InternationalArticleListingPage',
@@ -728,7 +728,7 @@ class InternationalArticlePage(BasePage):
     ]
 
 
-class InternationalArticleListingPage(BasePage):
+class InternationalArticleListingPage(TranslatablePageMixin, BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
     parent_page_types = [
         'great_international.InternationalLocaleRootPage',
@@ -777,7 +777,7 @@ class InternationalArticleListingPage(BasePage):
     ]
 
 
-class InternationalCampaignPage(BasePage):
+class InternationalCampaignPage(TranslatablePageMixin, BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
     parent_page_types = [
         'great_international.InternationalArticleListingPage',
@@ -1007,7 +1007,7 @@ class InternationalCampaignPage(BasePage):
     ]
 
 
-class InternationalTopicLandingPage(BasePage):
+class InternationalTopicLandingPage(TranslatablePageMixin, BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
     parent_page_types = ['great_international.InternationalLocaleRootPage']
     subpage_types = [
@@ -1048,7 +1048,7 @@ class InternationalTopicLandingPage(BasePage):
     ]
 
 
-class InternationalCuratedTopicLandingPage(BasePage):
+class InternationalCuratedTopicLandingPage(TranslatablePageMixin, BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
     parent_page_types = ['great_international.InternationalLocaleRootPage']
     subpage_types = [
@@ -1176,7 +1176,7 @@ class InternationalCuratedTopicLandingPage(BasePage):
     ]
 
 
-class InternationalGuideLandingPage(BasePage):
+class InternationalGuideLandingPage(TranslatablePageMixin, BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
     parent_page_types = [
         'great_international.InternationalCuratedTopicLandingPage',
