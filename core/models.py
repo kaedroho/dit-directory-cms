@@ -76,12 +76,12 @@ class BasePage(Page):
     @transaction.atomic
     def save(self, *args, **kwargs):
         self.service_name = self.service_name_value
-        if not self._slug_is_available(
-            slug=self.slug,
-            parent=self.get_parent(),
-            page=self
-        ):
-            raise ValidationError({'slug': 'This slug is already in use'})
+        #if not self._slug_is_available(
+        #    slug=self.slug,
+        #    parent=self.get_parent(),
+        #    page=self
+        #):
+        #    raise ValidationError({'slug': 'This slug is already in use'})
         return super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
@@ -92,16 +92,16 @@ class BasePage(Page):
         """
         super(Page, self).delete(*args, **kwargs)
 
-    @staticmethod
-    def _slug_is_available(slug, parent, page=None):
-        from core import filters  # circular dependencies
-        queryset = filters.ServiceNameFilter().filter_service_name(
-            queryset=Page.objects.filter(slug=slug).exclude(pk=page.pk),
-            name=None,
-            value=page.service_name,
-        )
-        is_unique_in_service = (queryset.count() == 0)
-        return is_unique_in_service
+    #@staticmethod
+    #def _slug_is_available(slug, parent, page=None):
+    #    from core import filters  # circular dependencies
+    #    queryset = filters.ServiceNameFilter().filter_service_name(
+    #        queryset=Page.objects.filter(slug=slug).exclude(pk=page.pk),
+    #        name=None,
+    #        value=page.service_name,
+    #    )
+    #    is_unique_in_service = (queryset.count() == 0)
+    #    return is_unique_in_service
 
     def get_draft_token(self):
         return self.signer.sign(self.pk)
