@@ -74,6 +74,8 @@ class InternationalLocaleRootPage(TranslatablePageMixin, BasePage):
         'InternationalLocalisedFolderPage'
     ]
 
+    translatable_fields = []
+
     def save(self, *args, **kwargs):
         # Set translation_key and locale.
         # As this is the root page of the localised site, we must set this manually as
@@ -306,6 +308,55 @@ class InternationalSectorPage(TranslatablePageMixin, BasePage):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+
+    translatable_fields = [
+        'title',
+        'slug',
+        # 'tags'
+        'heading',
+        'sub_heading',
+        'hero_image',
+        'heading_teaser',
+        'section_one_body',
+        #'section_one_image',
+        'section_one_image_caption',
+        'section_one_image_caption_company',
+        'statistic_1_heading',
+        'statistic_1_smallprint',
+        'statistic_2_heading',
+        'statistic_2_smallprint',
+        'statistic_3_heading',
+        'statistic_3_smallprint',
+        'statistic_4_heading',
+        'statistic_4_smallprint',
+        'statistic_5_heading',
+        'statistic_5_smallprint',
+        'statistic_6_heading',
+        'statistic_6_smallprint',
+        'section_two_heading',
+        'section_two_teaser',
+        #'section_two_subsection_one_icon',
+        'section_two_subsection_one_heading',
+        'section_two_subsection_one_body',
+        #'section_two_subsection_two_icon',
+        'section_two_subsection_two_heading',
+        'section_two_subsection_two_body',
+        #'section_two_subsection_three_icon',
+        'section_two_subsection_three_heading',
+        'section_two_subsection_three_body',
+        'case_study_title',
+        'case_study_description',
+        'case_study_cta_text',
+        #'case_study_image',
+        'section_three_heading',
+        'section_three_teaser',
+        'section_three_subsection_one_heading',
+        'section_three_subsection_one_teaser',
+        'section_three_subsection_one_body',
+        'section_three_subsection_two_heading',
+        'section_three_subsection_two_teaser',
+        'section_three_subsection_two_body',
+    ]
 
     content_panels = [
         MultiFieldPanel(
@@ -692,6 +743,16 @@ class InternationalArticlePage(TranslatablePageMixin, BasePage):
     )
     tags = ParentalManyToManyField(Tag, blank=True)
 
+    translatable_fields = [
+        'title',
+        'slug',
+        'article_title',
+        'article_teaser',
+        #'article_image',
+        'article_body_text',
+        #'tags',
+    ]
+
     content_panels = [
         FieldPanel('article_title'),
         MultiFieldPanel(
@@ -750,6 +811,16 @@ class InternationalArticleListingPage(TranslatablePageMixin, BasePage):
     hero_teaser = models.CharField(max_length=255, null=True, blank=True)
     list_teaser = MarkdownField(null=True, blank=True)
     tags = ParentalManyToManyField(Tag, blank=True)
+
+    translatable_fields = [
+        'title',
+        'slug',
+        'landing_page_title',
+        #'hero_image',
+        'hero_teaser',
+        'list_teaser',
+        #'tags',
+    ]
 
     @property
     def articles_count(self):
@@ -911,6 +982,36 @@ class InternationalCampaignPage(TranslatablePageMixin, BasePage):
 
     tags = ParentalManyToManyField(Tag, blank=True)
 
+    translatable_fields = [
+        'title',
+        'slug',
+        'campaign_teaser',
+        'campaign_heading',
+        #'campaign_hero_image',
+        'section_one_heading',
+        'section_one_intro',
+        #'section_one_image',
+        #'selling_point_one_icon',
+        'selling_point_one_heading',
+        'selling_point_one_content',
+        #'selling_point_two_icon',
+        'selling_point_two_heading',
+        'selling_point_two_content',
+        #'selling_point_three_icon',
+        'selling_point_three_heading',
+        'selling_point_three_content',
+        'section_one_contact_button_text',
+        'section_two_heading',
+        'section_two_intro',
+        #'section_two_image',
+        'section_two_contact_button_text',
+        'related_content_heading',
+        'related_content_intro',
+        'cta_box_message',
+        'cta_box_button_text',
+        #'tags',
+    ]
+
     content_panels = [
         MultiFieldPanel(
             heading='Hero section',
@@ -1029,6 +1130,15 @@ class InternationalTopicLandingPage(TranslatablePageMixin, BasePage):
     hero_teaser = models.CharField(max_length=255, null=True, blank=True)
     tags = ParentalManyToManyField(Tag, blank=True)
 
+    translatable_fields = [
+        'title',
+        'slug',
+        'landing_page_title',
+        #'hero_image',
+        'hero_teaser',
+        #'tags',
+    ]
+
     content_panels = [
         FieldPanel('landing_page_title'),
         MultiFieldPanel(
@@ -1126,6 +1236,28 @@ class InternationalCuratedTopicLandingPage(TranslatablePageMixin, BasePage):
     feature_five_url = models.URLField(verbose_name="URL")
 
     tags = ParentalManyToManyField(Tag, blank=True)
+
+    translatable_fields = [
+        'title',
+        'slug',
+        'display_title',
+        #'hero_image',
+        'teaser',
+        'feature_section_heading',
+        'feature_one_heading',
+        #'feature_one_image',
+        'feature_one_content',
+        'feature_two_heading',
+        #'feature_two_image',
+        'feature_two_content',
+        'feature_three_heading',
+        #'feature_three_image',
+        'feature_four_heading',
+        #'feature_four_image',
+        'feature_five_heading',
+        #'feature_five_image',
+        #'tags',
+    ]
 
     content_panels = [
         FieldPanel('display_title'),
@@ -1240,6 +1372,23 @@ class InternationalGuideLandingPage(TranslatablePageMixin, BasePage):
     )
 
     tags = ParentalManyToManyField(Tag, blank=True)
+
+    translatable_fields = [
+        'title',
+        'slug',
+        'display_title',
+        #'hero_image',
+        'teaser',
+        'section_one_content',
+        #'section_one_image',
+        'section_one_image_caption',
+        'section_two_heading',
+        'section_two_teaser',
+        'section_two_button_text',
+        #'section_two_image',
+        'guides_section_heading',
+        #'tags',
+    ]
 
     content_panels = [
         FieldPanel('display_title'),
