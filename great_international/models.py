@@ -89,7 +89,7 @@ class InternationalLocaleRootPage(TranslatablePageMixin, BasePage):
             region = self.get_parent().specific.region
             self.locale = Locale.objects.filter(language=language, region=region).first()
 
-        self.slug = self.locale.region.slug + '-' + self.language.code
+        self.slug = self.language.code
 
         # Make sure a locale root page doesn't already exist for this locale
         # Note: Not bothering to filter on translation_key as all instances of this model should
