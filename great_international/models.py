@@ -421,6 +421,8 @@ class InternationalSectorPage(TranslatablePageMixin, BasePage):
         'section_three_subsection_two_heading',
         'section_three_subsection_two_teaser',
         'section_three_subsection_two_body',
+        'seo_title',
+        'search_description',
     ]
 
     content_panels = [
@@ -816,6 +818,8 @@ class InternationalArticlePage(TranslatablePageMixin, BasePage):
         #'article_image',
         'article_body_text',
         #'tags',
+        'seo_title',
+        'search_description',
     ]
 
     content_panels = [
@@ -885,6 +889,8 @@ class InternationalArticleListingPage(TranslatablePageMixin, BasePage):
         'hero_teaser',
         'list_teaser',
         #'tags',
+        'seo_title',
+        'search_description',
     ]
 
     @property
@@ -1076,6 +1082,8 @@ class InternationalCampaignPage(TranslatablePageMixin, BasePage):
         'cta_box_message',
         'cta_box_button_text',
         #'tags',
+        'seo_title',
+        'search_description',
     ]
 
     content_panels = [
@@ -1203,6 +1211,8 @@ class InternationalTopicLandingPage(TranslatablePageMixin, BasePage):
         #'hero_image',
         'hero_teaser',
         #'tags',
+        'seo_title',
+        'search_description',
     ]
 
     content_panels = [
@@ -1323,6 +1333,8 @@ class InternationalCuratedTopicLandingPage(TranslatablePageMixin, BasePage):
         'feature_five_heading',
         #'feature_five_image',
         #'tags',
+        'seo_title',
+        'search_description',
     ]
 
     content_panels = [
@@ -1454,6 +1466,8 @@ class InternationalGuideLandingPage(TranslatablePageMixin, BasePage):
         #'section_two_image',
         'guides_section_heading',
         #'tags',
+        'seo_title',
+        'search_description',
     ]
 
     content_panels = [
