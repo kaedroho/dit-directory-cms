@@ -2,6 +2,8 @@ from uuid import UUID
 
 from directory_constants.constants import cms
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.forms import Textarea, CheckboxSelectMultiple
 from django.utils.text import slugify
 from modelcluster.fields import ParentalManyToManyField
@@ -57,6 +59,35 @@ class InternationalRegionRootPage(BasePage):
         return super().clean()
 
 
+@receiver(post_save, sender=Region)
+def sync_region_changes_in_page_tree(instance, **kwargs):
+    """
+    Automatically creates/unpublishes region pages whenever
+    a region is created, deactivated or reactivated.
+    """
+    page = InternationalRegionRootPage.objects.filter(region=instance).first()
+    is_active = instance.is_active
+
+    if page is None and is_active:
+        app_root = GreatInternationalApp.objects.get()
+
+        # Create region root page
+        region_root = InternationalRegionRootPage(
+            region=instance
+        )
+        region_root.clean()
+        page = app_root.add_child(instance=region_root)
+        page.save_revision(changed=False)
+
+    if page is not None and page.live != is_active:
+        if is_active:
+            # Republish the page
+            page.get_latest_revision().publish()
+        else:
+            # Unpublish the page
+            page.unpublish()
+
+
 # Bucket of content for a locale (region/language combination) or core content
 class InternationalLocaleRootPage(TranslatablePageMixin, BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
@@ -107,6 +138,39 @@ class InternationalLocaleRootPage(TranslatablePageMixin, BasePage):
     content_panels = [
         FieldPanel('language'),
     ]
+
+
+@receiver(post_save, sender=Locale)
+def sync_locale_changes_in_page_tree(instance, **kwargs):
+    """
+    Automatically creates/unpublishes locale home pages whenever
+    a locale is created, deactivated or reactivated.
+    """
+    page = InternationalLocaleRootPage.objects.filter(locale=instance).first()
+    is_active = instance.is_active
+
+    if page is None and is_active:
+        # Create locale home page
+        region_root = InternationalRegionRootPage.objects.filter(region=instance.region).first()
+
+        if region_root is None:
+            # Can't create locale home page as region doesn't exist for some reason
+            return
+
+        # Create region root page
+        # title/slug/translation_key/locale populated in save() method
+        page = region_root.add_child(instance=InternationalLocaleRootPage(
+            language=instance.language,
+        ))
+        page.save_revision(changed=False)
+
+    if page is not None and page.live != is_active:
+        if is_active:
+            # Republish the page
+            page.get_latest_revision().publish()
+        else:
+            # Unpublish the page
+            page.unpublish()
 
 
 class InternationalSectorPage(TranslatablePageMixin, BasePage):
