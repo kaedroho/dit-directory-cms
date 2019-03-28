@@ -71,7 +71,8 @@ class InternationalLocaleRootPage(TranslatablePageMixin, BasePage):
         'InternationalArticleListingPage',
         'InternationalTopicLandingPage',
         'InternationalCuratedTopicLandingPage',
-        'InternationalLocalisedFolderPage'
+        'InternationalCampaignPage',
+        'InternationalArticlePage',
     ]
 
     translatable_fields = []
@@ -702,7 +703,7 @@ class InternationalArticlePage(TranslatablePageMixin, BasePage):
     parent_page_types = [
         'great_international.InternationalArticleListingPage',
         'great_international.InternationalCampaignPage',
-        'great_international.InternationalLocalisedFolderPage',
+        'great_international.InternationalLocaleRootPage',
         'great_international.InternationalCuratedTopicLandingPage',
         'great_international.InternationalGuideLandingPage',
     ]
@@ -851,9 +852,10 @@ class InternationalArticleListingPage(TranslatablePageMixin, BasePage):
 class InternationalCampaignPage(TranslatablePageMixin, BasePage):
     service_name_value = cms.GREAT_INTERNATIONAL
     parent_page_types = [
+
         'great_international.InternationalArticleListingPage',
         'great_international.InternationalTopicLandingPage',
-        'great_international.InternationalLocalisedFolderPage'
+        'great_international.InternationalLocaleRootPage'
     ]
     subpage_types = [
         'great_international.InternationalArticlePage'
