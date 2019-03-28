@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'wagtail_i18n.plugins.language_switch',
 
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.staticfiles',
     'django.contrib.contenttypes',
     'django.contrib.messages',
@@ -62,6 +63,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'users.apps.UsersConfig',
     'wagtail.contrib.forms',
+    'wagtail.contrib.modeladmin',
     'wagtail.embeds',
     'wagtail.users',
     'wagtail.snippets',
@@ -86,6 +88,12 @@ INSTALLED_APPS = [
     'django_filters',
     'wagtail_i18n',
     'wagtail_i18n.plugins.regions_admin',
+    'wagtail_i18n.plugins.workflow',
+    'wagtail_i18n.plugins.translation_memory',
+    'wagtail_i18n.plugins.translation_engines.google_translate',
+    'wagtail_i18n.plugins.translation_engines.pofile',
+
+    'wagtail.contrib.styleguide',
 ]
 
 MIDDLEWARE_CLASSES = [
