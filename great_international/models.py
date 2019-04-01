@@ -87,6 +87,27 @@ def sync_region_changes_in_page_tree(instance, **kwargs):
             # Unpublish the page
             page.unpublish()
 
+    if is_active:
+        from django.contrib.auth.models import Group, Permission
+        from wagtail.core.models import GroupPagePermission, PAGE_PERMISSION_TYPES
+
+        # Create group for translators and set up page group permissions
+        translator_group, created = Group.objects.get_or_create(
+            name=f"{instance.name} post users"
+        )
+
+        if created:
+            # Add basic wagtail permissions
+            admin_access_perm = Permission.objects.get(name='Can access Wagtail admin')
+            translator_group.permissions.add(admin_access_perm)
+
+        for permission_type, _, _ in PAGE_PERMISSION_TYPES:
+            GroupPagePermission.objects.get_or_create(
+                group=translator_group,
+                page=page,
+                permission_type=permission_type,
+            )
+
 
 # Bucket of content for a locale (region/language combination) or core content
 class InternationalLocaleRootPage(TranslatablePageMixin, BasePage):
