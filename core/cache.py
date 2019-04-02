@@ -102,7 +102,7 @@ class CachePopulator:
     @classmethod
     def populate_async(cls, instance):
         with PageCache.transaction() as page_cache:
-            for language_code in [settings.LANGUAGE_CODE]:
+            for language_code in instance.translated_languages:
                 page_cache.delete(
                     slug=instance.slug,
                     params={
@@ -116,7 +116,7 @@ class CachePopulator:
     def populate_sync(cls, instance):
         serializer_class = MODELS_SERIALIZERS_MAPPING[instance.__class__]
         with PageCache.transaction() as page_cache:
-            for language_code in [settings.LANGUAGE_CODE]:
+            for language_code in instance.translated_languages:
                 with translation.override(language_code):
                     serializer = serializer_class(instance=instance)
                     page_cache.set(
@@ -174,7 +174,7 @@ class AbstractDatabaseCacheSubscriber(abc.ABC):
     @classmethod
     def delete(cls, sender, instance, *args, **kwargs):
         with PageCache.transaction() as page_cache:
-            for lang in [settings.LANGUAGE_CODE]:
+            for lang in instance.translated_languages:
                 page_cache.delete(
                     slug=instance.slug,
                     params={
@@ -201,7 +201,7 @@ class RegionAwareCachePopulator(CachePopulator):
     @classmethod
     def populate_async(cls, instance):
         with PageCache.transaction() as page_cache:
-            for language_code in [settings.LANGUAGE_CODE]:
+            for language_code in instance.translated_languages:
                 for region in cls.regions:
                     page_cache.delete(
                         slug=instance.slug,
@@ -217,7 +217,7 @@ class RegionAwareCachePopulator(CachePopulator):
     def populate_sync(cls, instance):
         serializer_class = MODELS_SERIALIZERS_MAPPING[instance.__class__]
         with PageCache.transaction() as page_cache:
-            for language_code in [settings.LANGUAGE_CODE]:
+            for language_code in instance.translated_languages:
                 with translation.override(language_code):
                     for region in cls.regions:
                         serializer = serializer_class(

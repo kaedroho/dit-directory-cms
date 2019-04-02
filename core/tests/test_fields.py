@@ -114,12 +114,12 @@ def test_meta_field_draft(page, rf):
 
 @pytest.mark.django_db
 def test_markdown_to_html_field(page, rf):
-    page.hero_text = (
+    page.hero_text_en_gb = (
         '[hyperlink](slug:{slug})'.format(slug=page.slug)
     )
 
     class TestSerializer(Serializer):
-        hero_text = fields.MarkdownToHTMLField()
+        hero_text_en_gb = fields.MarkdownToHTMLField()
 
     serializer = TestSerializer(
         instance=page,
@@ -127,7 +127,7 @@ def test_markdown_to_html_field(page, rf):
     )
 
     assert serializer.data == {
-        'hero_text': (
+        'hero_text_en_gb': (
             '<p><a href="http://supplier.trade.great:8005/'
             'industries/the-slug/">hyperlink</a></p>'
         )
@@ -136,10 +136,10 @@ def test_markdown_to_html_field(page, rf):
 
 @pytest.mark.django_db
 def test_breadcrumbs_field(page, rf):
-    IndustryLandingPageFactory(breadcrumbs_label='label-one')
-    IndustryPageFactory(breadcrumbs_label='label-two')
-    LandingPageFactory(breadcrumbs_label='label-three')
-    IndustryContactPageFactory(breadcrumbs_label='label-four')
+    IndustryLandingPageFactory(breadcrumbs_label_en_gb='label-one')
+    IndustryPageFactory(breadcrumbs_label_en_gb='label-two')
+    LandingPageFactory(breadcrumbs_label_en_gb='label-three')
+    IndustryContactPageFactory(breadcrumbs_label_en_gb='label-four')
 
     serializer = IndustryPageSerializer(
         instance=page,

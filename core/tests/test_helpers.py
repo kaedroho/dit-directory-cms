@@ -8,6 +8,17 @@ from core import helpers
 from core.helpers import render_markdown, get_page_full_url
 
 
+@pytest.fixture(autouse=True)
+def mock_translated_fields():
+    stub = patch(
+        'find_a_supplier.models.IndustryPage.get_translatable_fields',
+        return_value=['title']
+    )
+    stub.start()
+    yield stub
+    stub.stop()
+
+
 @pytest.mark.django_db
 def test_get_or_create_image_existing(image):
     actual = helpers.get_or_create_image(image.file.name)

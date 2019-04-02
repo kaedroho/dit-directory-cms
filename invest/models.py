@@ -20,6 +20,10 @@ class InvestApp(ExclusivePageMixin, ServiceMixin, BasePage):
     service_name_value = cms.INVEST
     slug_identity = 'invest-app'
 
+    @classmethod
+    def get_required_translatable_fields(cls):
+        return []
+
 
 # Sector models
 
@@ -49,7 +53,7 @@ class SectorLandingPage(ExclusivePageMixin, BasePage):
 
     ]
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -87,7 +91,7 @@ class RegionLandingPage(ExclusivePageMixin, BasePage):
         SearchEngineOptimisationPanel()
     ]
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -277,7 +281,7 @@ class SectorPage(BasePage):
         SearchEngineOptimisationPanel()
     ]
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
         FieldPanel('featured')
     ]
@@ -312,7 +316,7 @@ class SetupGuideLandingPage(ExclusivePageMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -426,7 +430,7 @@ class SetupGuidePage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -814,7 +818,7 @@ class InvestHomePage(ExclusivePageMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -842,7 +846,7 @@ class InfoPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug')
     ]
 
@@ -890,7 +894,7 @@ class HighPotentialOpportunityFormPage(
     content_panels_after_form = [SearchEngineOptimisationPanel()]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -1303,7 +1307,7 @@ class HighPotentialOpportunityDetailPage(BasePage):
         SearchEngineOptimisationPanel(),
     ]
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
         FieldPanel('featured'),
         DocumentChooserPanel('pdf_document'),
@@ -1369,6 +1373,6 @@ class HighPotentialOpportunityFormSuccessPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]

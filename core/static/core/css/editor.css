@@ -37,6 +37,10 @@ body .image-chooser .chosen {
     background: none!important;
 }
 
+#tab-arabic input {
+    direction: rtl;
+}
+
 .tab-nav a.required-for-language:after {
     border-radius: 50px;
     box-shadow: 1px 2px 2px rgba(0,0,0,.1);

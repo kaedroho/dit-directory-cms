@@ -58,10 +58,17 @@ def test_models_hierarchy():
     ]
 
 
+@pytest.mark.parametrize('model', [
+    models.GreatInternationalApp,
+])
+def test_app_required_translatable_fields(model):
+    assert model.get_required_translatable_fields() == []
+
+
 @pytest.mark.django_db
 def test_set_slug():
     instance = models.GreatInternationalApp.objects.create(
-        title='the app',
+        title_en_gb='the app',
         depth=2,
         path='/thing',
     )

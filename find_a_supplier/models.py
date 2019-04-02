@@ -29,6 +29,10 @@ class FindASupplierApp(ExclusivePageMixin, ServiceMixin, BasePage):
     slug_identity = 'find-a-supplier-app'
     service_name_value = cms.FIND_A_SUPPLIER
 
+    @classmethod
+    def get_required_translatable_fields(cls):
+        return []
+
 
 class ArticleSummary(models.Model):
     industry_name = models.CharField(
@@ -259,7 +263,7 @@ class IndustryPage(BasePage):
         SearchEngineOptimisationPanel(),
     ]
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
         MultiFieldPanel(
             heading='Company list filters',
@@ -340,7 +344,7 @@ class IndustryLandingPage(ExclusivePageMixin, BreadcrumbMixin, BasePage):
         SearchEngineOptimisationPanel(),
     ]
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -413,7 +417,7 @@ class IndustryArticlePage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
         MultiFieldPanel(
             heading='Page structure',
@@ -560,7 +564,7 @@ class LandingPage(ExclusivePageMixin, BreadcrumbMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -605,7 +609,7 @@ class IndustryContactPage(ExclusivePageMixin, BreadcrumbMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
     edit_handler = make_translated_interface(

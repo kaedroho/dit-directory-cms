@@ -3,6 +3,7 @@ from unittest.mock import ANY, call, patch
 
 from bs4 import BeautifulSoup
 from directory_constants.constants import cms
+from modeltranslation.utils import build_localized_fieldname
 from wagtail.core.models import Page
 
 from django.forms.models import model_to_dict
@@ -17,11 +18,13 @@ from invest.tests.factories import InfoPageFactory
 @pytest.fixture
 def cluster_data(settings):
     data = {}
-    data.update(
-        helpers.nested_form_data({
-            'article_summaries': helpers.inline_formset([])
-        })
-    )
+    for code, _ in settings.LANGUAGES:
+        field_name = build_localized_fieldname('article_summaries', lang=code)
+        data.update(
+            helpers.nested_form_data({
+                field_name: helpers.inline_formset([])
+            })
+        )
     return data
 
 

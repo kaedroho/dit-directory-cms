@@ -33,6 +33,10 @@ class ExportReadinessApp(ExclusivePageMixin, ServiceMixin, BasePage):
     slug_identity = 'export-readiness-app'
     service_name_value = cms.EXPORT_READINESS
 
+    @classmethod
+    def get_required_translatable_fields(cls):
+        return []
+
 
 class TermsAndConditionsPage(ExclusivePageMixin, BasePage):
 
@@ -53,7 +57,7 @@ class TermsAndConditionsPage(ExclusivePageMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -77,7 +81,7 @@ class PrivacyAndCookiesPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -219,7 +223,7 @@ class GetFinancePage(ExclusivePageMixin, BreadcrumbMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -395,7 +399,7 @@ class PerformanceDashboardNotesPage(ExclusivePageMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -437,7 +441,7 @@ class TopicLandingPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -489,7 +493,7 @@ class ArticleListingPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -2806,7 +2810,7 @@ class CountryGuidePage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -3039,7 +3043,7 @@ class CampaignPage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -3137,7 +3141,7 @@ class ArticlePage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
         FieldPanel('tags', widget=CheckboxSelectMultiple),
     ]
@@ -3176,7 +3180,7 @@ class HomePage(ExclusivePageMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -3193,7 +3197,7 @@ class InternationalLandingPage(ExclusivePageMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -3247,7 +3251,7 @@ class EUExitInternationalFormPage(
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -3292,7 +3296,7 @@ class EUExitDomesticFormPage(
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 
@@ -3340,7 +3344,7 @@ class EUExitFormSuccessPage(ExclusivePageMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title'),
+        FieldPanel('title_en_gb'),
         FieldPanel('slug'),
     ]
 

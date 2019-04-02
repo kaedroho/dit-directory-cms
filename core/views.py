@@ -72,7 +72,7 @@ class APIEndpointBase(PagesAdminAPIEndpoint):
         return instance
 
     def handle_activate_language(self, instance):
-        if translation.get_language() not in [settings.LANGUAGE_CODE]:
+        if translation.get_language() not in instance.translated_languages:
             translation.activate(settings.LANGUAGE_CODE)
 
     def get_object(self):

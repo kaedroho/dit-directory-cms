@@ -172,7 +172,7 @@ def test_branch_user_can_create_child_pages_in_it(branch_factory, root_page):
         'article_title': 'test article',
         'article_teaser': 'test article',
         'article_body_text': 'test article',
-        'title': 'test article',
+        'title_en_gb': 'test article',
         'slug': 'test-article',
     }
 
@@ -218,7 +218,7 @@ def test_branch_user_cant_create_child_pages_without_mandatory_data(
     mandatory_fields = {
         'article_title',
         'article_body_text',
-        'title',
+        'title_en_gb',
         'slug',
     }
     data = {}
@@ -254,7 +254,7 @@ def test_branch_user_cant_create_pages_in_branch_they_dont_manage(
         'article_title': 'test article',
         'article_teaser': 'test article',
         'article_body_text': 'test article',
-        'title': 'test article',
+        'title_en_gb': 'test article',
         'slug': 'test-article',
         'action-publish': 'action-publish',
     }
@@ -283,7 +283,7 @@ def test_admins_can_create_pages_in_any_branch(root_page):
         'article_title': 'test article',
         'article_teaser': 'test article',
         'article_body_text': 'test article',
-        'title': 'test article',
+        'title_en_gb': 'test article',
         'slug': 'test-article',
         'action-publish': 'action-publish',
     }
@@ -307,19 +307,19 @@ def test_admins_can_create_pages_in_any_branch(root_page):
         'article_title': 'test article',
         'article_teaser': 'test article',
         'article_body_text': 'test article',
-        'title': 'test article',
+        'title_en_gb': 'test article',
         'body': 'this is a test page',
         'slug': 'test-article',
         'action-publish': 'action-publish',
-        'breadcrumbs_label': 'test breadcrumb',
-        'introduction_title': 'test introduction',
-        'author_name': 'dit',
-        'job_title': 'dit',
-        'proposition_text': 'test proposition',
-        'call_to_action_text': 'contact us',
-        'back_to_home_link_text': 'home',
-        'social_share_title': 'share',
-        'date': '2019-01-01',
+        'breadcrumbs_label_en_gb': 'test breadcrumb',
+        'introduction_title_en_gb': 'test introduction',
+        'author_name_en_gb': 'dit',
+        'job_title_en_gb': 'dit',
+        'proposition_text_en_gb': 'test proposition',
+        'call_to_action_text_en_gb': 'contact us',
+        'back_to_home_link_text_en_gb': 'home',
+        'social_share_title_en_gb': 'share',
+        'date_en_gb': '2019-01-01',
     }
     resp_2 = env.admin_client.post(
         reverse(
@@ -383,7 +383,7 @@ def test_branch_user_can_submit_changes_for_moderation(
         'article_title': 'new title',
         'article_teaser': 'new teaser',
         'article_body_text': 'new body text',
-        'title': 'next title',
+        'title_en_gb': 'next title',
         'action-submit': 'Submit for moderation',  # this action triggers notification  # NOQA
     }
     resp = branch.client.post(
@@ -411,7 +411,7 @@ def test_branch_user_can_view_drafts(branch_factory, root_page):
         'article_title': 'new title',
         'article_teaser': 'new teaser',
         'article_body_text': 'new body text',
-        'title': 'next title',
+        'title_en_gb': 'next title',
         # omitted 'action-submit' means that pages was saved as draft
     }
 
