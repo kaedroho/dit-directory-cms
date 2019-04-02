@@ -6,6 +6,7 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailmedia.widgets import AdminMediaChooser
+from wagtail_i18n.models import TranslatableMixin, TranslatablePageMixin
 
 from django.db import models
 
@@ -69,7 +70,7 @@ class ArticleSummary(models.Model):
         abstract = True
 
 
-class IndustryPageArticleSummary(Orderable, ArticleSummary):
+class IndustryPageArticleSummary(TranslatableMixin, Orderable, ArticleSummary):
     page = ParentalKey(
         'find_a_supplier.IndustryPage',
         on_delete=models.CASCADE,
@@ -79,7 +80,7 @@ class IndustryPageArticleSummary(Orderable, ArticleSummary):
     )
 
 
-class LandingPageArticleSummary(Orderable, ArticleSummary):
+class LandingPageArticleSummary(TranslatableMixin, Orderable, ArticleSummary):
     page = ParentalKey(
         'find_a_supplier.LandingPage',
         on_delete=models.CASCADE,
@@ -89,7 +90,7 @@ class LandingPageArticleSummary(Orderable, ArticleSummary):
     )
 
 
-class IndustryPage(BasePage):
+class IndustryPage(TranslatablePageMixin, BasePage):
 
     service_name_value = cms.FIND_A_SUPPLIER
     view_path = 'industries/'
@@ -194,6 +195,21 @@ class IndustryPage(BasePage):
     show_on_homepage = models.BooleanField(default=False)
     show_on_industries_showcase_page = models.BooleanField(default=False)
 
+    translatable_fields = [
+        'hero_text',
+        'hero_image_caption',
+        'introduction_text',
+        'introduction_title',
+        'introduction_call_to_action_button_text',
+        'introduction_column_one_text',
+        'introduction_column_two_text',
+        'introduction_column_three_text',
+        'breadcrumbs_label',
+        'company_list_text',
+        'company_list_search_input_placeholder_text',
+        'company_list_call_to_action_text',
+    ]
+
     image_panels = [
         MultiFieldPanel(
             heading='Hero images',
@@ -286,7 +302,7 @@ class IndustryPage(BasePage):
     )
 
 
-class IndustryLandingPage(ExclusivePageMixin, BreadcrumbMixin, BasePage):
+class IndustryLandingPage(TranslatablePageMixin, ExclusivePageMixin, BreadcrumbMixin, BasePage):
     service_name_value = cms.FIND_A_SUPPLIER
     view_path = 'industries/'
     slug_identity = cms.FIND_A_SUPPLIER_INDUSTRY_LANDING_SLUG
@@ -318,6 +334,15 @@ class IndustryLandingPage(ExclusivePageMixin, BreadcrumbMixin, BasePage):
     proposition_text = models.CharField(max_length=500)
     call_to_action_text = models.CharField(max_length=500)
     more_industries_title = models.CharField(max_length=100)
+
+    translatable_fields = [
+        'hero_title',
+        'hero_image_caption',
+        'proposition_text',
+        'call_to_action_text',
+        'breadcrumbs_label',
+        'more_industries_title',
+    ]
 
     image_panels = [
         ImageChooserPanel('hero_image'),
@@ -357,7 +382,7 @@ class IndustryLandingPage(ExclusivePageMixin, BreadcrumbMixin, BasePage):
     )
 
 
-class IndustryArticlePage(BasePage):
+class IndustryArticlePage(TranslatablePageMixin, BasePage):
 
     service_name_value = cms.FIND_A_SUPPLIER
     view_path = 'industry-articles/'
@@ -380,6 +405,19 @@ class IndustryArticlePage(BasePage):
     back_to_home_link_text = models.CharField(max_length=100)
     social_share_title = models.CharField(max_length=100)
     date = models.DateField()
+
+    translatable_fields = [
+        'author_name',
+        'job_title',
+        'date',
+        'body',
+        'introduction_title',
+        'breadcrumbs_label',
+        'proposition_text',
+        'call_to_action_text',
+        'back_to_home_link_text',
+        'social_share_title',
+    ]
 
     content_panels = [
         FieldPanel('breadcrumbs_label'),
@@ -431,7 +469,7 @@ class IndustryArticlePage(BasePage):
     )
 
 
-class LandingPage(ExclusivePageMixin, BreadcrumbMixin, BasePage):
+class LandingPage(TranslatablePageMixin, ExclusivePageMixin, BreadcrumbMixin, BasePage):
     service_name_value = cms.FIND_A_SUPPLIER
     view_path = '/'
     slug_identity = cms.FIND_A_SUPPLIER_LANDING_SLUG
@@ -497,6 +535,27 @@ class LandingPage(ExclusivePageMixin, BreadcrumbMixin, BasePage):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+
+    translatable_fields = [
+        'breadcrumbs_label',
+        'hero_text',
+        'hero_image_caption',
+        'search_field_placeholder',
+        'search_button_text',
+        'proposition_text',
+        'call_to_action_text',
+        'industries_list_text',
+        'industries_list_call_to_action_text',
+        'services_list_text',
+        'services_column_one',
+        'services_column_two',
+        'services_column_three',
+        'services_column_four',
+        'services_column_one_icon',
+        'services_column_two_icon',
+        'services_column_three_icon',
+        'services_column_four_icon',
+    ]
 
     image_panels = [
         ImageChooserPanel('hero_image'),
@@ -577,7 +636,7 @@ class LandingPage(ExclusivePageMixin, BreadcrumbMixin, BasePage):
     )
 
 
-class IndustryContactPage(ExclusivePageMixin, BreadcrumbMixin, BasePage):
+class IndustryContactPage(TranslatablePageMixin, ExclusivePageMixin, BreadcrumbMixin, BasePage):
 
     service_name_value = cms.FIND_A_SUPPLIER
     view_path = 'industries/contact/'
@@ -588,6 +647,14 @@ class IndustryContactPage(ExclusivePageMixin, BreadcrumbMixin, BasePage):
     submit_button_text = models.CharField(max_length=100)
     success_message_text = MarkdownField(blank=True)
     success_back_link_text = models.CharField(max_length=100)
+
+    translatable_fields = [
+        'breadcrumbs_label',
+        'introduction_text',
+        'submit_button_text',
+        'success_message_text',
+        'success_back_link_text',
+    ]
 
     content_panels = [
         MultiFieldPanel(
