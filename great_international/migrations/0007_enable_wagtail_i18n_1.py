@@ -9,7 +9,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wagtail_i18n', '0005_language_is_active'),
+        ('wagtail_i18n', '__latest__'),
         ('great_international', '0006_auto_20190326_1135'),
     ]
 
