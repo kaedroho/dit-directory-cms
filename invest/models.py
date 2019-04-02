@@ -6,6 +6,8 @@ from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailmedia.widgets import AdminMediaChooser
 
+from wagtail_i18n.models import TranslatablePageMixin
+
 from django.db import models
 
 from core.helpers import make_translated_interface
@@ -27,7 +29,7 @@ class InvestApp(ExclusivePageMixin, ServiceMixin, BasePage):
 
 # Sector models
 
-class SectorLandingPage(ExclusivePageMixin, BasePage):
+class SectorLandingPage(ExclusivePageMixin, TranslatablePageMixin, BasePage):
     service_name_value = cms.INVEST
     subpage_types = ['invest.sectorPage']
     slug_identity = cms.INVEST_SECTOR_LANDING_PAGE_SLUG
@@ -35,6 +37,10 @@ class SectorLandingPage(ExclusivePageMixin, BasePage):
 
     # page fields
     heading = models.CharField(max_length=255)
+
+    translatable_fields = [
+        'heading',
+    ]
 
     hero_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -53,7 +59,7 @@ class SectorLandingPage(ExclusivePageMixin, BasePage):
 
     ]
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
     ]
 
@@ -66,7 +72,7 @@ class SectorLandingPage(ExclusivePageMixin, BasePage):
     )
 
 
-class RegionLandingPage(ExclusivePageMixin, BasePage):
+class RegionLandingPage(ExclusivePageMixin, TranslatablePageMixin, BasePage):
     service_name_value = cms.INVEST
     subpage_types = ['invest.sectorPage']
     slug_identity = cms.INVEST_UK_REGION_LANDING_PAGE_SLUG
@@ -83,6 +89,10 @@ class RegionLandingPage(ExclusivePageMixin, BasePage):
         related_name='+'
     )
 
+    translatable_fields = [
+        'heading',
+    ]
+
     image_panels = [
         ImageChooserPanel('hero_image'),
     ]
@@ -91,7 +101,7 @@ class RegionLandingPage(ExclusivePageMixin, BasePage):
         SearchEngineOptimisationPanel()
     ]
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
     ]
 
@@ -104,7 +114,7 @@ class RegionLandingPage(ExclusivePageMixin, BasePage):
     )
 
 
-class SectorPage(BasePage):
+class SectorPage(TranslatablePageMixin, BasePage):
     # Related sector are implemented as subpages
     service_name_value = cms.INVEST
     subpage_types = ['invest.sectorPage']
@@ -199,6 +209,42 @@ class SectorPage(BasePage):
     )
     # subsections end
 
+    translatable_fields = [
+        'description',
+        'heading',
+        'pullout_text',
+        'pullout_stat',
+        'pullout_stat_text',
+        # subsections
+        'subsection_title_one',
+        'subsection_content_one',
+        'subsection_map_one',
+
+        'subsection_title_two',
+        'subsection_content_two',
+        'subsection_map_two',
+
+        'subsection_title_three',
+        'subsection_content_three',
+        'subsection_map_three',
+
+        'subsection_title_four',
+        'subsection_content_four',
+        'subsection_map_four',
+
+        'subsection_title_five',
+        'subsection_content_five',
+        'subsection_map_five',
+
+        'subsection_title_six',
+        'subsection_content_six',
+        'subsection_map_six',
+
+        'subsection_title_seven',
+        'subsection_content_seven',
+        'subsection_map_seven'
+    ]
+
     image_panels = [
         ImageChooserPanel('hero_image'),
     ]
@@ -281,7 +327,7 @@ class SectorPage(BasePage):
         SearchEngineOptimisationPanel()
     ]
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
         FieldPanel('featured')
     ]
@@ -297,7 +343,7 @@ class SectorPage(BasePage):
 
 # Setup guide models
 
-class SetupGuideLandingPage(ExclusivePageMixin, BasePage):
+class SetupGuideLandingPage(ExclusivePageMixin, TranslatablePageMixin, BasePage):
     service_name_value = cms.INVEST
     subpage_types = ['invest.SetupGuidePage']
     slug_identity = cms.INVEST_GUIDE_LANDING_PAGE_SLUG
@@ -308,6 +354,12 @@ class SetupGuideLandingPage(ExclusivePageMixin, BasePage):
     sub_heading = models.CharField(max_length=255)
     lead_in = models.TextField(blank=True)
 
+    translatable_fields = [
+        'heading',
+        'sub_heading',
+        'lead_in',
+    ]
+
     content_panels = [
         FieldPanel('heading'),
         FieldPanel('sub_heading'),
@@ -316,7 +368,7 @@ class SetupGuideLandingPage(ExclusivePageMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
     ]
 
@@ -326,7 +378,7 @@ class SetupGuideLandingPage(ExclusivePageMixin, BasePage):
     )
 
 
-class SetupGuidePage(BasePage):
+class SetupGuidePage(TranslatablePageMixin, BasePage):
     service_name_value = cms.INVEST
     view_path = 'setup-guides/'
 
@@ -356,6 +408,33 @@ class SetupGuidePage(BasePage):
 
     subsection_title_seven = models.CharField(max_length=255, blank=True)
     subsection_content_seven = MarkdownField(blank=True)
+
+    translatable_fields = [
+        'description',
+        'heading',
+        'sub_heading',
+        # subsections
+        'subsection_title_one',
+        'subsection_content_one',
+
+        'subsection_title_two',
+        'subsection_content_two',
+
+        'subsection_title_three',
+        'subsection_content_three',
+
+        'subsection_title_four',
+        'subsection_content_four',
+
+        'subsection_title_five',
+        'subsection_content_five',
+
+        'subsection_title_six',
+        'subsection_content_six',
+
+        'subsection_title_seven',
+        'subsection_content_seven',
+    ]
 
     content_panels = [
         FieldPanel('description'),
@@ -430,7 +509,7 @@ class SetupGuidePage(BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
     ]
 
@@ -440,7 +519,7 @@ class SetupGuidePage(BasePage):
     )
 
 
-class InvestHomePage(ExclusivePageMixin, BasePage):
+class InvestHomePage(ExclusivePageMixin, TranslatablePageMixin, BasePage):
     service_name_value = cms.INVEST
     slug_identity = cms.INVEST_HOME_PAGE_SLUG
     view_path = ''
@@ -621,6 +700,81 @@ class InvestHomePage(ExclusivePageMixin, BasePage):
     contact_section_title = models.CharField(max_length=255)
     contact_section_content = models.TextField(max_length=255, blank=True)
     contact_section_call_to_action_text = models.CharField(max_length=255)
+
+    translatable_fields = [
+        'breadcrumbs_label',
+        'heading',
+        'sub_heading',
+        'hero_call_to_action_text',
+
+        'benefits_section_title',
+        'benefits_section_intro',
+        'benefits_section_content',
+        'benefits_section_img',
+        'benefits_section_img_caption',
+
+        'eu_exit_section_title',
+        'eu_exit_section_content',
+        'eu_exit_section_call_to_action_text',
+        'eu_exit_section_img',
+        'eu_exit_section_img_caption',
+
+        # subsections
+        'subsection_title_one',
+        'subsection_content_one',
+
+        'subsection_title_two',
+        'subsection_content_two',
+
+        'subsection_title_three',
+        'subsection_content_three',
+
+        'subsection_title_four',
+        'subsection_content_four',
+
+        'subsection_title_five',
+        'subsection_content_five',
+
+        'subsection_title_six',
+        'subsection_content_six',
+
+        'subsection_title_seven',
+        'subsection_content_seven',
+
+        'sector_title',
+        'sector_intro',
+        'hpo_title',
+        'hpo_intro',
+        'setup_guide_title',
+        'setup_guide_content',
+        'setup_guide_img',
+        'setup_guide_img_caption',
+        'setup_guide_call_to_action_text',
+        'setup_guide_lead_in',
+        'how_we_help_title',
+        'how_we_help_lead_in',
+        # how we help
+        'how_we_help_text_one',
+        'how_we_help_icon_one',
+
+        'how_we_help_text_two',
+        'how_we_help_icon_two',
+
+        'how_we_help_text_three',
+        'how_we_help_icon_three',
+
+        'how_we_help_text_four',
+        'how_we_help_icon_four',
+
+        'how_we_help_text_five',
+        'how_we_help_icon_five',
+
+        'how_we_help_text_six',
+        'sector_button_text',
+        'contact_section_title',
+        'contact_section_content',
+        'contact_section_call_to_action_text'
+    ]
 
     image_panels = [
         ImageChooserPanel('hero_image'),
@@ -818,7 +972,7 @@ class InvestHomePage(ExclusivePageMixin, BasePage):
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
     ]
 
@@ -831,7 +985,7 @@ class InvestHomePage(ExclusivePageMixin, BasePage):
     )
 
 
-class InfoPage(BasePage):
+class InfoPage(TranslatablePageMixin, BasePage):
     """
     Markdown page - used for terms and conditions
     and privacy policy
@@ -840,13 +994,17 @@ class InfoPage(BasePage):
     view_path = 'info/'
     content = MarkdownField()
 
+    translatable_fields = [
+        'content',
+    ]
+
     content_panels = [
         FieldPanel('content'),
         SearchEngineOptimisationPanel()
     ]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug')
     ]
 
@@ -857,7 +1015,7 @@ class InfoPage(BasePage):
 
 
 class HighPotentialOpportunityFormPage(
-    ExclusivePageMixin, BasePage, metaclass=FormPageMetaClass
+    ExclusivePageMixin, TranslatablePageMixin, BasePage, metaclass=FormPageMetaClass
 ):
     # metaclass creates <fild_name>_label and <field_name>_help_text
     form_field_names = [
@@ -881,6 +1039,8 @@ class HighPotentialOpportunityFormPage(
     sub_heading = models.CharField(max_length=255)
     breadcrumbs_label = models.CharField(max_length=50)
 
+    translatable_fields = []
+
     content_panels_before_form = [
         MultiFieldPanel(
             heading='Hero',
@@ -894,12 +1054,12 @@ class HighPotentialOpportunityFormPage(
     content_panels_after_form = [SearchEngineOptimisationPanel()]
 
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
     ]
 
 
-class HighPotentialOpportunityDetailPage(BasePage):
+class HighPotentialOpportunityDetailPage(TranslatablePageMixin, BasePage):
     service_name_value = cms.INVEST
     subpage_types = ['invest.HighPotentialOpportunityDetailPage']
     view_path = 'high-potential-opportunities/'
@@ -1115,6 +1275,8 @@ class HighPotentialOpportunityDetailPage(BasePage):
         verbose_name='Image',
     )
 
+    translatable_fields = []
+
     content_panels = [
         MultiFieldPanel(
             heading='Hero',
@@ -1307,14 +1469,14 @@ class HighPotentialOpportunityDetailPage(BasePage):
         SearchEngineOptimisationPanel(),
     ]
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
         FieldPanel('featured'),
         DocumentChooserPanel('pdf_document'),
     ]
 
 
-class HighPotentialOpportunityFormSuccessPage(BasePage):
+class HighPotentialOpportunityFormSuccessPage(TranslatablePageMixin, BasePage):
     service_name_value = cms.INVEST
     view_path = 'high-potential-opportunities/rail/contact/'
     slug_identity = cms.INVEST_HIGH_POTENTIAL_OPPORTUNITY_FORM_SUCCESS_SLUG
@@ -1372,7 +1534,9 @@ class HighPotentialOpportunityFormSuccessPage(BasePage):
         SearchEngineOptimisationPanel(),
     ]
 
+    translatable_fields = []
+
     settings_panels = [
-        FieldPanel('title_en_gb'),
+        FieldPanel('title'),
         FieldPanel('slug'),
     ]
