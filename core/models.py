@@ -299,6 +299,8 @@ class BreadcrumbMixin(models.Model):
 
     breadcrumb = GenericRelation(Breadcrumb)
 
+    exclude_fields_in_copy = ['breadcrumb']
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         defaults = {
