@@ -22,10 +22,6 @@ class InvestApp(ExclusivePageMixin, ServiceMixin, BasePage):
     service_name_value = cms.INVEST
     slug_identity = 'invest-app'
 
-    @classmethod
-    def get_required_translatable_fields(cls):
-        return []
-
 
 class InvestLocaleRootPage(TranslatablePageMixin, BasePage):
     service_name_value = cms.INVEST

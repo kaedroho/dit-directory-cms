@@ -4,9 +4,6 @@ from urllib.parse import urljoin, urlencode
 
 from directory_constants.constants import choices
 from django.core.exceptions import ValidationError
-from modeltranslation import settings as modeltranslation_settings
-from modeltranslation.translator import translator
-from modeltranslation.utils import build_localized_fieldname
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtail.core.models import Page, PageBase
 
@@ -74,9 +71,6 @@ class BasePage(Page):
 
     def __init__(self, *args, **kwargs):
         self.signer = signing.Signer()
-        #  workaround modeltranslation patching Page.clean in an unpythonic way
-        #  goo.gl/yYD4pw
-        self.clean = lambda: None
         super().__init__(*args, **kwargs)
 
     @transaction.atomic
@@ -123,15 +117,13 @@ class BasePage(Page):
     def get_url_path_parts(self):
         return [self.view_path, self.slug + '/']
 
-    def get_url(self, is_draft=False, language_code=settings.LANGUAGE_CODE):
+    def get_url(self, is_draft=False):
         domain = dict(constants.APP_URLS)[self.service_name_value]
         url_path_parts = self.get_url_path_parts()
         url = reduce(urljoin, [domain] + url_path_parts)
         querystring = {}
         if is_draft:
             querystring['draft_token'] = self.get_draft_token()
-        if language_code != settings.LANGUAGE_CODE:
-            querystring['lang'] = language_code
         if querystring:
             url += '?' + urlencode(querystring)
         return url
@@ -158,15 +150,6 @@ class BasePage(Page):
     def url(self):
         return self.get_url()
 
-    def get_localized_urls(self):
-        # localized urls are used to tell google of alternative urls for
-        # available languages, so there should be no need to expose the draft
-        # url
-        return [
-            (language_code, self.get_url(language_code=language_code))
-            for language_code in self.translated_languages
-        ]
-
     def serve(self, request, *args, **kwargs):
         return redirect(self.get_url())
 
@@ -181,52 +164,6 @@ class BasePage(Page):
             if hasattr(field, 'get_latest_revision_as_page'):
                 setattr(revision, name, field.get_latest_revision_as_page())
         return revision
-
-    @classmethod
-    def get_modeltranslation_translatable_fields(cls):
-        return list(translator.get_options_for_model(cls).fields.keys())
-
-    @classmethod
-    def get_translatable_string_fields(cls):
-        text_fields = ['TextField', 'CharField']
-        return [
-            name for name in cls.get_modeltranslation_translatable_fields()
-            if cls._meta.get_field(name).get_internal_type() in text_fields
-        ]
-
-    @classmethod
-    def get_required_translatable_fields(cls):
-        fields = [
-            cls._meta.get_field(name) for name in cls.get_modeltranslation_translatable_fields()
-        ]
-        return [
-            field.name for field in fields
-            if not field.blank and field.model is cls
-        ]
-
-    @property
-    def translated_languages(self):
-        fields = self.get_required_translatable_fields()
-        if not fields:
-            return [settings.LANGUAGE_CODE]
-        language_codes = translation.trans_real.get_languages()
-        translated_languages = []
-        for language_code in language_codes:
-            builder = partial(build_localized_fieldname, lang=language_code)
-            if all(getattr(self, builder(name)) for name in fields):
-                translated_languages.append(language_code)
-        return translated_languages
-
-    @property
-    def language_names(self):
-        if len(self.translated_languages) > 1:
-            names = [
-                label for code, label, _ in settings.LANGUAGES_DETAILS
-                if code in self.translated_languages
-                and code != settings.LANGUAGE_CODE
-            ]
-            return 'Translated to {}'.format(', '.join(names))
-        return ''
 
     @classmethod
     def can_exist_under(cls, parent):
@@ -307,13 +244,7 @@ class BreadcrumbMixin(models.Model):
             'service_name': self.service_name_value,
             'slug': self.slug,
         }
-        if 'breadcrumb_label' in self.get_modeltranslation_translatable_fields():
-            for lang in modeltranslation_settings.AVAILABLE_LANGUAGES:
-                localizer = partial(build_localized_fieldname, lang=lang)
-                field_name = localizer('breadcrumbs_label')
-                defaults[localizer('label')] = getattr(self, field_name, '')
-        else:
-            defaults['label'] = self.breadcrumbs_label
+        defaults['label'] = self.breadcrumbs_label
         self.breadcrumb.update_or_create(defaults=defaults)
 
 
@@ -335,7 +266,7 @@ class ServiceMixin(models.Model):
         ]
 
     settings_panels = [
-        FieldPanel('title_en_gb')
+        FieldPanel('title')
     ]
     content_panels = []
     promote_panels = []

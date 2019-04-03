@@ -1,7 +1,5 @@
 import itertools
 
-from modeltranslation.utils import build_localized_fieldname
-
 from django import forms
 from django.conf import settings
 
@@ -27,7 +25,6 @@ class WagtailAdminPageForm(WagtailAdminPageForm):
 
     def __new__(cls, data=None, *args, **kwargs):
         form_class = super().__new__(cls)
-        cls.set_required_for_language(form_class)
         cls.set_read_only(form_class)
         return form_class
 
@@ -49,32 +46,6 @@ class WagtailAdminPageForm(WagtailAdminPageForm):
                 field.disabled = True
                 field.required = False
 
-    @staticmethod
-    def set_required_for_language(form_class):
-        """Mark fields that must be populated for a language to be available.
-
-        Some fields are optional, but for their language to be available the
-        field must be populated e.g., for German to be available for a page
-        then the fields title_de and description_de must must be populated.
-
-        `required_for_language` is used by templates to style the page and hint
-        the user which fields they need to populate.
-
-        Arguments:
-            form_class {WagtailAdminPageForm}
-
-        """
-
-        css_classname = 'required-for-language'
-        fields = form_class._meta.model.get_required_translatable_fields()
-        for name, (code, _) in itertools.product(fields, settings.LANGUAGES):
-            field_name = build_localized_fieldname(name, lang=code)
-            field = form_class.base_fields[field_name]
-            if field.required is False:
-                attrs = field.widget.attrs
-                attrs['required_for_language'] = True
-                attrs['class'] = attrs.get('class', '') + ' ' + css_classname
-
 
 class WagtailAdminPageExclusivePageForm(WagtailAdminPageForm):
 
@@ -87,7 +58,4 @@ class WagtailAdminPageExclusivePageForm(WagtailAdminPageForm):
 
 
 class BaseAppAdminPageForm(WagtailAdminPageExclusivePageForm):
-
-    @staticmethod
-    def set_required_for_language(form_class):
-        pass
+    pass
