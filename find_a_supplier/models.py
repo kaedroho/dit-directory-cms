@@ -35,6 +35,16 @@ class FindASupplierApp(ExclusivePageMixin, ServiceMixin, BasePage):
         return []
 
 
+class FindASupplierLocaleRootPage(TranslatablePageMixin, BasePage):
+    service_name_value = cms.FIND_A_SUPPLIER
+
+    def save(self, *args, **kwargs):
+        self.title = self.locale.language.get_display_name()
+        self.slug = self.locale.language.code
+
+        return super().save(*args, **kwargs)
+
+
 class ArticleSummary(models.Model):
     industry_name = models.CharField(
         max_length=255,

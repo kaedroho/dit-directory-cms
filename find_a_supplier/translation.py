@@ -9,6 +9,11 @@ class FindASupplierAppTranslationOptions(BaseTranslationOptions):
     fields = []
 
 
+@register(models.FindASupplierLocaleRootPage)
+class FindASupplierLocaleRootPageTranslationOptions(BaseTranslationOptions):
+    fields = []
+
+
 @register(models.IndustryPage)
 class IndustryPageTranslationOptions(BaseTranslationOptions):
     fields = models.IndustryPage.translatable_fields
