@@ -27,6 +27,16 @@ class InvestApp(ExclusivePageMixin, ServiceMixin, BasePage):
         return []
 
 
+class InvestLocaleRootPage(TranslatablePageMixin, BasePage):
+    service_name_value = cms.INVEST
+
+    def save(self, *args, **kwargs):
+        self.title = self.locale.language.get_display_name()
+        self.slug = self.locale.language.code
+
+        return super().save(*args, **kwargs)
+
+
 # Sector models
 
 class SectorLandingPage(ExclusivePageMixin, TranslatablePageMixin, BasePage):

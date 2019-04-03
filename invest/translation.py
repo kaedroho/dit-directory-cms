@@ -4,6 +4,11 @@ from core.translation import BaseTranslationOptions
 from . import models
 
 
+@register(models.InvestLocaleRootPage)
+class InvestLocaleRootPageTranslation(BaseTranslationOptions):
+    fields = []
+
+
 @register(models.InvestHomePage)
 class InvestHomePageTranslation(BaseTranslationOptions):
     fields = models.InvestHomePage.translatable_fields
