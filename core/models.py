@@ -183,21 +183,21 @@ class BasePage(Page):
         return revision
 
     @classmethod
-    def get_translatable_fields(cls):
+    def get_modeltranslation_translatable_fields(cls):
         return list(translator.get_options_for_model(cls).fields.keys())
 
     @classmethod
     def get_translatable_string_fields(cls):
         text_fields = ['TextField', 'CharField']
         return [
-            name for name in cls.get_translatable_fields()
+            name for name in cls.get_modeltranslation_translatable_fields()
             if cls._meta.get_field(name).get_internal_type() in text_fields
         ]
 
     @classmethod
     def get_required_translatable_fields(cls):
         fields = [
-            cls._meta.get_field(name) for name in cls.get_translatable_fields()
+            cls._meta.get_field(name) for name in cls.get_modeltranslation_translatable_fields()
         ]
         return [
             field.name for field in fields
@@ -307,7 +307,7 @@ class BreadcrumbMixin(models.Model):
             'service_name': self.service_name_value,
             'slug': self.slug,
         }
-        if 'breadcrumb_label' in self.get_translatable_fields():
+        if 'breadcrumb_label' in self.get_modeltranslation_translatable_fields():
             for lang in modeltranslation_settings.AVAILABLE_LANGUAGES:
                 localizer = partial(build_localized_fieldname, lang=lang)
                 field_name = localizer('breadcrumbs_label')
