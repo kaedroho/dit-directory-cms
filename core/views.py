@@ -17,6 +17,8 @@ from django.utils import translation
 from django.utils.cache import get_conditional_response
 from django.views.generic.edit import FormView
 
+from wagtail_i18n.models import Locale, TranslatableMixin
+
 from conf.signature import SignatureCheckPermission
 from core import cache, filters, forms, helpers, models, permissions, \
     serializers
@@ -57,12 +59,12 @@ class APIEndpointBase(PagesAdminAPIEndpoint):
             context['region'] = region
         return context
 
-    @property
-    def permission_classes(self):
-        permission_classes = [SignatureCheckPermission]
-        if helpers.is_draft_requested(self.request):
-            permission_classes.append(permissions.DraftTokenPermisison)
-        return permission_classes
+    #@property
+    #def permission_classes(self):
+    #    permission_classes = [SignatureCheckPermission]
+    #    if helpers.is_draft_requested(self.request):
+    #        permission_classes.append(permissions.DraftTokenPermisison)
+    #    return permission_classes
 
     def handle_serve_draft_object(self, instance):
         if helpers.is_draft_requested(self.request):
@@ -71,16 +73,29 @@ class APIEndpointBase(PagesAdminAPIEndpoint):
             raise Http404()
         return instance
 
-    def handle_activate_language(self, instance):
-        if translation.get_language() not in [settings.LANGUAGE_CODE]:
-            translation.activate(settings.LANGUAGE_CODE)
+    def get_locale(self):
+        region_slug = self.request.GET.get('region', 'default')
+        language_code = self.request.GET.get('lang', settings.LANGUAGE_CODE)
+        return get_object_or_404(Locale, is_active=True, region__slug=region_slug, language__code=language_code)
+
+    def get_translated_version(self, instance):
+        if not isinstance(instance, TranslatableMixin):
+            return instance
+
+        locale = self.get_locale()
+        if locale == instance.locale:
+            return instance
+
+        try:
+            return instance.get_translation(locale)
+        except instance.__class__.DoesNotExist:
+            raise Http404("Page does not exist in requested language.")
 
     def get_object(self):
         instance = super().get_object()
         self.check_object_permissions(self.request, instance)
         instance = self.handle_serve_draft_object(instance)
-        self.handle_activate_language(instance)
-        return instance
+        return self.get_translated_version(instance)
 
 
 class PagesOptionalDraftAPIEndpoint(APIEndpointBase):
@@ -95,43 +110,13 @@ class PageLookupBySlugAPIEndpoint(APIEndpointBase):
     authentication_classes = []
     renderer_classes = [JSONRenderer]
 
-    def dispatch(self, *args, **kwargs):
-        if (
-            'service_name' not in self.request.GET or
-            helpers.is_draft_requested(self.request)
-        ):
-            return super().dispatch(*args, **kwargs)
-        cached_page = cache.PageCache.get(
-            slug=self.kwargs['slug'],
-            params={
-                'service_name': self.request.GET['service_name'],
-                'lang': translation.get_language(),
-                'region': self.request.GET.get('region'),
-            }
-        )
-        if cached_page:
-            cached_response = helpers.CachedResponse(cached_page)
-            cached_response['etag'] = cached_page.get('etag', None)
-            response = get_conditional_response(
-                request=self.request,
-                etag=cached_response['etag'],
-                response=cached_response,
-            )
-        else:
-            response = super().dispatch(*args, **kwargs)
-            if response.status_code == 200:
-                # No etag is set in this response. this is because creating an
-                # etag is expensive. It will be present on the next retrieved
-                # from the cache though.
-                cache.CachePopulator.populate_async(self.get_object())
-        return response
-
     def get_queryset(self):
-        return Page.objects.all()
+        return self.get_locale().get_all_pages()
 
     def get_object(self):
         if hasattr(self, 'object'):
             return self.object
+
         if 'service_name' not in self.request.query_params:
             raise ValidationError(
                 detail={'service_name': 'This parameter is required'}
@@ -142,7 +127,6 @@ class PageLookupBySlugAPIEndpoint(APIEndpointBase):
         ).specific
         self.check_object_permissions(self.request, instance)
         instance = self.handle_serve_draft_object(instance)
-        self.handle_activate_language(instance)
         self.object = instance
         return instance
 
@@ -169,10 +153,9 @@ class PageLookupByFullPathAPIEndpoint(APIEndpointBase):
         pages = self.get_queryset()
         page = list(filter(lambda x: x.specific.full_path == full_path, pages))
         if page:
-            instance = page[0].specific
+            instance = self.get_translated_version(page[0].specific)
             self.check_object_permissions(self.request, instance)
             instance = self.handle_serve_draft_object(instance)
-            self.handle_activate_language(instance)
             self.object = instance
             return instance
         raise Http404()

@@ -233,8 +233,9 @@ class InvestHomePageSerializer(BasePageSerializer):
         return serializer.data
 
     def get_sectors(self, instance):
-        queryset = SectorPage.objects.all().filter(
-            featured=True
+        queryset = SectorPage.objects.filter(
+            locale=instance.locale,
+            featured=True,
         ).live().order_by('heading')
         serializer = SectorPageSerializer(
             queryset,
@@ -258,7 +259,7 @@ class InvestHomePageSerializer(BasePageSerializer):
         return serializer.data
 
     def get_guides(self, instance):
-        queryset = SetupGuidePage.objects.all().live().order_by('heading')
+        queryset = SetupGuidePage.objects.filter(locale=instance.locale).live().order_by('heading')
         serializer = SetupGuidePageSerializer(
             queryset,
             many=True,

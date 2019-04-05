@@ -15,8 +15,8 @@ from django.utils import translation
 from django.utils.http import quote_etag
 
 from core.serializer_mapping import MODELS_SERIALIZERS_MAPPING
+from core.utils import get_page_language, get_page_locale
 from conf.celery import app
-
 
 class PageCache:
     cache = cache
@@ -102,31 +102,31 @@ class CachePopulator:
     @classmethod
     def populate_async(cls, instance):
         with PageCache.transaction() as page_cache:
-            for language_code in [settings.LANGUAGE_CODE]:
-                page_cache.delete(
-                    slug=instance.slug,
-                    params={
-                        'service_name': instance.service_name,
-                        'lang': language_code
-                    }
-                )
+            language_code = get_page_language(instance)
+            page_cache.delete(
+                slug=instance.slug,
+                params={
+                    'service_name': instance.service_name,
+                    'lang': language_code
+                }
+            )
         cls.populate.delay(instance.pk)
 
     @classmethod
     def populate_sync(cls, instance):
         serializer_class = MODELS_SERIALIZERS_MAPPING[instance.__class__]
         with PageCache.transaction() as page_cache:
-            for language_code in [settings.LANGUAGE_CODE]:
-                with translation.override(language_code):
-                    serializer = serializer_class(instance=instance)
-                    page_cache.set(
-                        slug=instance.slug,
-                        params={
-                            'lang': language_code,
-                            'service_name': instance.service_name,
-                        },
-                        data=serializer.data,
-                    )
+            language_code = get_page_language(instance)
+            with translation.override(language_code):
+                serializer = serializer_class(instance=instance)
+                page_cache.set(
+                    slug=instance.slug,
+                    params={
+                        'lang': language_code,
+                        'service_name': instance.service_name,
+                    },
+                    data=serializer.data,
+                )
 
 
 class AbstractDatabaseCacheSubscriber(abc.ABC):
@@ -174,14 +174,14 @@ class AbstractDatabaseCacheSubscriber(abc.ABC):
     @classmethod
     def delete(cls, sender, instance, *args, **kwargs):
         with PageCache.transaction() as page_cache:
-            for lang in [settings.LANGUAGE_CODE]:
-                page_cache.delete(
-                    slug=instance.slug,
-                    params={
-                        'lang': lang,
-                        'service_name': instance.service_name,
-                    }
-                )
+            lang = get_page_language(instance)
+            page_cache.delete(
+                slug=instance.slug,
+                params={
+                    'lang': lang,
+                    'service_name': instance.service_name,
+                }
+            )
 
     @classmethod
     def populate_many(cls, sender, instance, *args, **kwargs):
@@ -190,8 +190,6 @@ class AbstractDatabaseCacheSubscriber(abc.ABC):
 
 
 class RegionAwareCachePopulator(CachePopulator):
-    regions = ['eu', 'not-eu']
-
     @staticmethod
     @app.task(name='region-aware-populate')
     def populate(instance_pk):
@@ -201,35 +199,33 @@ class RegionAwareCachePopulator(CachePopulator):
     @classmethod
     def populate_async(cls, instance):
         with PageCache.transaction() as page_cache:
-            for language_code in [settings.LANGUAGE_CODE]:
-                for region in cls.regions:
-                    page_cache.delete(
-                        slug=instance.slug,
-                        params={
-                            'service_name': instance.service_name,
-                            'lang': language_code,
-                            'region': region,
-                        }
-                    )
+            region, language_code = get_page_locale(instance)
+            page_cache.delete(
+                slug=instance.slug,
+                params={
+                    'service_name': instance.service_name,
+                    'lang': language_code,
+                    'region': region,
+                }
+            )
         cls.populate.delay(instance.pk)
 
     @classmethod
     def populate_sync(cls, instance):
         serializer_class = MODELS_SERIALIZERS_MAPPING[instance.__class__]
         with PageCache.transaction() as page_cache:
-            for language_code in [settings.LANGUAGE_CODE]:
-                with translation.override(language_code):
-                    for region in cls.regions:
-                        serializer = serializer_class(
-                            instance=instance,
-                            context={'region': region}
-                        )
-                        page_cache.set(
-                            slug=instance.slug,
-                            params={
-                                'lang': language_code,
-                                'service_name': instance.service_name,
-                                'region': region,
-                            },
-                            data=serializer.data,
-                        )
+            region, language_code = get_page_locale(instance)
+            with translation.override(language_code):
+                serializer = serializer_class(
+                    instance=instance,
+                    context={'region': region}
+                )
+                page_cache.set(
+                    slug=instance.slug,
+                    params={
+                        'lang': language_code,
+                        'service_name': instance.service_name,
+                        'region': region,
+                    },
+                    data=serializer.data,
+                )

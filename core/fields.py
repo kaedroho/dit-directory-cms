@@ -2,6 +2,8 @@ from rest_framework import fields
 
 from conf import settings
 from core import helpers, models
+from core.utils import get_page_languages
+
 
 
 class MarkdownToHTMLField(fields.CharField):
@@ -20,11 +22,10 @@ class MetaDictField(fields.DictField):
         return {
             'languages': [
                 (code, label) for (code, label) in settings.LANGUAGES_LOCALIZED
-                if code in [settings.LANGUAGE_CODE]
+                if code in get_page_languages(instance)
             ],
             'url': instance.specific.get_url(
                 is_draft=is_draft,
-                language_code=settings.LANGUAGE_CODE,
             ),
             'slug': instance.slug,
             'localised_urls': [],  # FIXME
