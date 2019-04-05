@@ -70,9 +70,12 @@ class Command(BaseCommand):
                         )
 
                         try:
-                            result = page.copy_for_translation(locale, exclude_fields=exclude_fields)
+                            result = page.copy_for_translation(locale, copy_parents=True, exclude_fields=exclude_fields)
 
                             if result:
+                                if page.live:
+                                    result.get_latest_revision().publish()
+
                                 print("SUCCESS")
                             else:
                                 print("FAIL")
