@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.model_fields
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
@@ -28,9 +27,9 @@ class Migration(migrations.Migration):
                 ('teaser', models.CharField(max_length=255)),
                 ('feature_section_heading', models.CharField(max_length=255)),
                 ('feature_one_heading', models.CharField(max_length=255)),
-                ('feature_one_content', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('feature_one_content', core.model_fields.MarkdownField()),
                 ('feature_two_heading', models.CharField(max_length=255)),
-                ('feature_two_content', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('feature_two_content', core.model_fields.MarkdownField()),
                 ('feature_one_image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),
                 ('feature_two_image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),
                 ('featured_page_one', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='great_international.InternationalArticlePage')),

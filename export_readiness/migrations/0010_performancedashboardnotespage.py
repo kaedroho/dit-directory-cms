@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 import core.fields
 import core.models
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -21,7 +20,7 @@ class Migration(migrations.Migration):
             name='PerformanceDashboardNotesPage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
-                ('body', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('body', core.model_fields.MarkdownField()),
             ],
             options={
                 'abstract': False,

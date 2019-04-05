@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.fields
-import core.validators
 from django.db import migrations, models
 import modelcluster.fields
 
@@ -23,7 +22,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='euexitdomesticformpage',
             name='body_text',
-            field=core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(),
         ),
         migrations.AlterField(
             model_name='euexitdomesticformpage',
@@ -38,7 +37,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='euexitinternationalformpage',
             name='body_text',
-            field=core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(),
         ),
         migrations.AlterField(
             model_name='euexitinternationalformpage',

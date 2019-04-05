@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.model_fields
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -25,7 +24,7 @@ class Migration(migrations.Migration):
                 ('heading', models.CharField(max_length=255)),
                 ('sub_heading', models.CharField(max_length=255)),
                 ('heading_teaser', models.CharField(max_length=255)),
-                ('section_one_body', core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks])),
+                ('section_one_body', core.model_fields.MarkdownField(blank=True, null=True)),
                 ('statistic_1_number', models.CharField(max_length=255)),
                 ('statistic_1_heading', models.CharField(max_length=255)),
                 ('statistic_1_smallprint', models.CharField(max_length=255)),
@@ -60,10 +59,10 @@ class Migration(migrations.Migration):
                 ('section_three_teaser', models.CharField(max_length=255)),
                 ('section_three_subsection_one_heading', models.CharField(max_length=255)),
                 ('section_three_subsection_one_teaser', models.CharField(max_length=255)),
-                ('section_three_subsection_one_body', core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks])),
+                ('section_three_subsection_one_body', core.model_fields.MarkdownField(blank=True, null=True)),
                 ('section_three_subsection_two_heading', models.CharField(max_length=255)),
                 ('section_three_subsection_two_teaser', models.CharField(max_length=255)),
-                ('section_three_subsection_two_body', core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks])),
+                ('section_three_subsection_two_body', core.model_fields.MarkdownField(blank=True, null=True)),
                 ('next_steps_heading', models.CharField(max_length=255)),
                 ('next_steps_description', models.CharField(max_length=255)),
                 ('case_study_image', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),

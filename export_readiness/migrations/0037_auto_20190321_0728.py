@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.model_fields
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -108,7 +107,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='countryguidepage',
             name='fact_sheet_column_1_body',
-            field=core.model_fields.MarkdownField(blank=True, help_text='Use H4 (####) for each sub category heading. Maximum five sub categories. Aim for 50 words each.', validators=[core.validators.slug_hyperlinks], verbose_name="Detailed text for 'Tax and customs'"),
+            field=core.model_fields.MarkdownField(blank=True, help_text='Use H4 (####) for each sub category heading. Maximum five sub categories. Aim for 50 words each.', verbose_name="Detailed text for 'Tax and customs'"),
         ),
         migrations.AlterField(
             model_name='countryguidepage',
@@ -123,7 +122,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='countryguidepage',
             name='fact_sheet_column_2_body',
-            field=core.model_fields.MarkdownField(blank=True, help_text='Use H4 (####) for each sub category heading. Maximum five sub categories. Aim for 50 words each.', validators=[core.validators.slug_hyperlinks], verbose_name="Detailed text for 'Protecting your business'"),
+            field=core.model_fields.MarkdownField(blank=True, help_text='Use H4 (####) for each sub category heading. Maximum five sub categories. Aim for 50 words each.', verbose_name="Detailed text for 'Protecting your business'"),
         ),
         migrations.AlterField(
             model_name='countryguidepage',
@@ -163,7 +162,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='countryguidepage',
             name='section_one_body',
-            field=core.model_fields.MarkdownField(help_text='Use H3 (###) markdown for the 3 subheadings', null=True, validators=[core.validators.slug_hyperlinks], verbose_name='3 unique selling points markdown'),
+            field=core.model_fields.MarkdownField(help_text='Use H3 (###) markdown for the 3 subheadings', null=True, verbose_name='3 unique selling points markdown'),
         ),
         migrations.AlterField(
             model_name='countryguidepage',

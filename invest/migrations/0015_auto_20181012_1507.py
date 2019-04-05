@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.fields
-import core.validators
 from django.db import migrations, models
 
 
@@ -22,12 +21,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='setupguidepage',
             name='subsection_content_one',
-            field=core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(),
         ),
         migrations.AlterField(
             model_name='setupguidepage',
             name='subsection_content_two',
-            field=core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(),
         ),
         migrations.AlterField(
             model_name='setupguidepage',

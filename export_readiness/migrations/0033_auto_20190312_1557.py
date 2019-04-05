@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.model_fields
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -1017,7 +1016,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='countryguidepage',
             name='section_one_body',
-            field=core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks], verbose_name='Bullets markdown'),
+            field=core.model_fields.MarkdownField(null=True, verbose_name='Bullets markdown'),
         ),
         migrations.AddField(
             model_name='countryguidepage',

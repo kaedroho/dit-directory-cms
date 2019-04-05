@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 import core.model_fields
 import core.models
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -23,17 +22,17 @@ class Migration(migrations.Migration):
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
                 ('service_name', models.CharField(choices=[('FIND_A_SUPPLIER', 'Find a Supplier'), ('EXPORT_READINESS', 'Export Readiness'), ('INVEST', 'Invest'), ('COMPONENTS', 'Components')], db_index=True, max_length=100, null=True)),
-                ('banner_content', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
-                ('banner_content_en_gb', core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks])),
-                ('banner_content_de', core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks])),
-                ('banner_content_ja', core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks])),
-                ('banner_content_ru', core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks])),
-                ('banner_content_zh_hans', core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks])),
-                ('banner_content_fr', core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks])),
-                ('banner_content_es', core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks])),
-                ('banner_content_pt', core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks])),
-                ('banner_content_pt_br', core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks])),
-                ('banner_content_ar', core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks])),
+                ('banner_content', core.model_fields.MarkdownField()),
+                ('banner_content_en_gb', core.model_fields.MarkdownField(null=True)),
+                ('banner_content_de', core.model_fields.MarkdownField(null=True)),
+                ('banner_content_ja', core.model_fields.MarkdownField(null=True)),
+                ('banner_content_ru', core.model_fields.MarkdownField(null=True)),
+                ('banner_content_zh_hans', core.model_fields.MarkdownField(null=True)),
+                ('banner_content_fr', core.model_fields.MarkdownField(null=True)),
+                ('banner_content_es', core.model_fields.MarkdownField(null=True)),
+                ('banner_content_pt', core.model_fields.MarkdownField(null=True)),
+                ('banner_content_pt_br', core.model_fields.MarkdownField(null=True)),
+                ('banner_content_ar', core.model_fields.MarkdownField(null=True)),
                 ('banner_label', models.CharField(blank=True, max_length=50, null=True)),
                 ('banner_label_en_gb', models.CharField(blank=True, max_length=50, null=True)),
                 ('banner_label_de', models.CharField(blank=True, max_length=50, null=True)),

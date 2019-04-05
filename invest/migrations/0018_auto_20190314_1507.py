@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.model_fields
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -75,57 +74,57 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='investhomepage',
             name='setup_guide_content',
-            field=core.model_fields.MarkdownField(blank=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='setup_guide_content_ar',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='setup_guide_content_de',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='setup_guide_content_en_gb',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='setup_guide_content_es',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='setup_guide_content_fr',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='setup_guide_content_ja',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='setup_guide_content_pt',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='setup_guide_content_pt_br',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='setup_guide_content_ru',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='setup_guide_content_zh_hans',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',

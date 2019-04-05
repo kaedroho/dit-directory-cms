@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 import core.fields
 import core.models
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -23,7 +22,7 @@ class Migration(migrations.Migration):
             name='TermsAndConditionsPage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
-                ('body', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('body', core.model_fields.MarkdownField()),
             ],
             options={
                 'abstract': False,
@@ -44,7 +43,7 @@ class Migration(migrations.Migration):
             name='PrivacyAndCookiesPage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
-                ('body', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('body', core.model_fields.MarkdownField()),
             ],
             options={
                 'abstract': False,
@@ -56,11 +55,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
                 ('breadcrumbs_label', models.CharField(max_length=50)),
-                ('banner_content', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
-                ('section_one_content', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
-                ('section_two_content', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('banner_content', core.model_fields.MarkdownField()),
+                ('section_one_content', core.model_fields.MarkdownField()),
+                ('section_two_content', core.model_fields.MarkdownField()),
                 ('video_embed', models.CharField(max_length=500)),
-                ('section_three_content', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('section_three_content', core.model_fields.MarkdownField()),
                 ('call_to_action_text', models.CharField(max_length=255)),
                 ('call_to_action_url', models.CharField(max_length=500)),
                 ('banner_image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),
@@ -76,26 +75,26 @@ class Migration(migrations.Migration):
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
                 ('heading', models.CharField(max_length=255)),
-                ('description', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('description', core.model_fields.MarkdownField()),
                 ('product_link', models.URLField()),
                 ('data_title_row_one', models.CharField(max_length=100)),
                 ('data_number_row_one', models.CharField(max_length=15)),
                 ('data_period_row_one', models.CharField(max_length=100)),
-                ('data_description_row_one', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('data_description_row_one', core.model_fields.MarkdownField()),
                 ('data_title_row_two', models.CharField(max_length=100)),
                 ('data_number_row_two', models.CharField(max_length=15)),
                 ('data_period_row_two', models.CharField(max_length=100)),
-                ('data_description_row_two', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('data_description_row_two', core.model_fields.MarkdownField()),
                 ('data_title_row_three', models.CharField(max_length=100)),
                 ('data_number_row_three', models.CharField(max_length=15)),
                 ('data_period_row_three', models.CharField(max_length=100)),
-                ('data_description_row_three', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('data_description_row_three', core.model_fields.MarkdownField()),
                 ('data_title_row_four', models.CharField(blank=True, max_length=100, null=True)),
                 ('data_number_row_four', models.CharField(blank=True, max_length=15, null=True)),
                 ('data_period_row_four', models.CharField(blank=True, max_length=100, null=True)),
-                ('data_description_row_four', core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks])),
+                ('data_description_row_four', core.model_fields.MarkdownField(blank=True, null=True)),
                 ('landing_dashboard', models.BooleanField(default=False)),
-                ('guidance_notes', core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks])),
+                ('guidance_notes', core.model_fields.MarkdownField(blank=True, null=True)),
             ],
             options={
                 'abstract': False,

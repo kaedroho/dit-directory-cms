@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.model_fields
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -38,7 +37,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='internationalsectorpage',
             name='section_one_body',
-            field=core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks], verbose_name='3 unique selling points markdown'),
+            field=core.model_fields.MarkdownField(null=True, verbose_name='3 unique selling points markdown'),
         ),
         migrations.AlterField(
             model_name='internationalsectorpage',

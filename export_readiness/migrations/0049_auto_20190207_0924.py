@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.model_fields
-import core.validators
 from django.db import migrations, models
 
 
@@ -17,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='homepage',
             name='banner_content',
-            field=core.model_fields.MarkdownField(default='', validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(default=''),
             preserve_default=False,
         ),
         migrations.AddField(

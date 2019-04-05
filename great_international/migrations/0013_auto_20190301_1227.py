@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.model_fields
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
@@ -60,7 +59,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='internationalsectorpage',
             name='section_one_body',
-            field=core.model_fields.MarkdownField(null=True, validators=[core.validators.slug_hyperlinks], verbose_name='Bullets markdown'),
+            field=core.model_fields.MarkdownField(null=True, verbose_name='Bullets markdown'),
         ),
         migrations.AlterField(
             model_name='internationalsectorpage',
@@ -75,7 +74,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='internationalsectorpage',
             name='section_three_subsection_one_body',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks], verbose_name='Fact sheet 1 body'),
+            field=core.model_fields.MarkdownField(blank=True, null=True, verbose_name='Fact sheet 1 body'),
         ),
         migrations.AlterField(
             model_name='internationalsectorpage',
@@ -90,7 +89,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='internationalsectorpage',
             name='section_three_subsection_two_body',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks], verbose_name='Fact sheet 2 body'),
+            field=core.model_fields.MarkdownField(blank=True, null=True, verbose_name='Fact sheet 2 body'),
         ),
         migrations.AlterField(
             model_name='internationalsectorpage',

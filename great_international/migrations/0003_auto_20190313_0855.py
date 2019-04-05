@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.model_fields
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -82,7 +81,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='internationalcuratedtopiclandingpage',
             name='feature_one_content',
-            field=core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks], verbose_name='content'),
+            field=core.model_fields.MarkdownField(verbose_name='content'),
         ),
         migrations.AlterField(
             model_name='internationalcuratedtopiclandingpage',
@@ -97,7 +96,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='internationalcuratedtopiclandingpage',
             name='feature_two_content',
-            field=core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks], verbose_name='content'),
+            field=core.model_fields.MarkdownField(verbose_name='content'),
         ),
         migrations.AlterField(
             model_name='internationalcuratedtopiclandingpage',

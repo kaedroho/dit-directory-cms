@@ -1,20 +1,27 @@
 import markdown
 from bs4 import BeautifulSoup
+from django import forms
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import TextField
 from markdownify import markdownify as md
 from wagtail_i18n.segments import SegmentValue, TemplateValue
 from wagtail_i18n.segments.html import extract_html_segment, render_html_segment
 from wagtail_i18n.segments.ingest import organise_template_segments
 
-from core import validators as core_validators, widgets
+from core import helpers, widgets
 
 
 class MarkdownField(TextField):
-    def __init__(self, validators=None, *args, **kwargs):
-        validators = validators or []
-        if core_validators.slug_hyperlinks not in validators:
-            validators.append(core_validators.slug_hyperlinks)
-        super().__init__(validators=validators, *args, **kwargs)
+    def clean(self, value, model_instance):
+        value = super().clean(value, model_instance)
+
+        if value not in self.empty_values:
+            try:
+                helpers.render_markdown(value)
+            except ObjectDoesNotExist:
+                raise forms.ValidationError(INCORRECT_SLUG)
+
+        return value
 
     def formfield(self, **kwargs):
         defaults = {

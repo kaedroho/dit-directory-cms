@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.model_fields
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -29,57 +28,57 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='investhomepage',
             name='benefits_section_content',
-            field=core.model_fields.MarkdownField(blank=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='benefits_section_content_ar',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='benefits_section_content_de',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='benefits_section_content_en_gb',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='benefits_section_content_es',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='benefits_section_content_fr',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='benefits_section_content_ja',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='benefits_section_content_pt',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='benefits_section_content_pt_br',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='benefits_section_content_ru',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='benefits_section_content_zh_hans',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AddField(
             model_name='investhomepage',
@@ -583,57 +582,57 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='investhomepage',
             name='eu_exit_section_content',
-            field=core.model_fields.MarkdownField(blank=True, validators=[core.validators.slug_hyperlinks], verbose_name='EU exit section content'),
+            field=core.model_fields.MarkdownField(blank=True, verbose_name='EU exit section content'),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='eu_exit_section_content_ar',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks], verbose_name='EU exit section content'),
+            field=core.model_fields.MarkdownField(blank=True, null=True, verbose_name='EU exit section content'),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='eu_exit_section_content_de',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks], verbose_name='EU exit section content'),
+            field=core.model_fields.MarkdownField(blank=True, null=True, verbose_name='EU exit section content'),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='eu_exit_section_content_en_gb',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks], verbose_name='EU exit section content'),
+            field=core.model_fields.MarkdownField(blank=True, null=True, verbose_name='EU exit section content'),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='eu_exit_section_content_es',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks], verbose_name='EU exit section content'),
+            field=core.model_fields.MarkdownField(blank=True, null=True, verbose_name='EU exit section content'),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='eu_exit_section_content_fr',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks], verbose_name='EU exit section content'),
+            field=core.model_fields.MarkdownField(blank=True, null=True, verbose_name='EU exit section content'),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='eu_exit_section_content_ja',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks], verbose_name='EU exit section content'),
+            field=core.model_fields.MarkdownField(blank=True, null=True, verbose_name='EU exit section content'),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='eu_exit_section_content_pt',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks], verbose_name='EU exit section content'),
+            field=core.model_fields.MarkdownField(blank=True, null=True, verbose_name='EU exit section content'),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='eu_exit_section_content_pt_br',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks], verbose_name='EU exit section content'),
+            field=core.model_fields.MarkdownField(blank=True, null=True, verbose_name='EU exit section content'),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='eu_exit_section_content_ru',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks], verbose_name='EU exit section content'),
+            field=core.model_fields.MarkdownField(blank=True, null=True, verbose_name='EU exit section content'),
         ),
         migrations.AddField(
             model_name='investhomepage',
             name='eu_exit_section_content_zh_hans',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks], verbose_name='EU exit section content'),
+            field=core.model_fields.MarkdownField(blank=True, null=True, verbose_name='EU exit section content'),
         ),
         migrations.AddField(
             model_name='investhomepage',
@@ -1189,112 +1188,112 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_one',
-            field=core.model_fields.MarkdownField(blank=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_one_ar',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_one_de',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_one_en_gb',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_one_es',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_one_fr',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_one_ja',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_one_pt',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_one_pt_br',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_one_ru',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_one_zh_hans',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_two',
-            field=core.model_fields.MarkdownField(blank=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_two_ar',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_two_de',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_two_en_gb',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_two_es',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_two_fr',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_two_ja',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_two_pt',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_two_pt_br',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_two_ru',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',
             name='subsection_content_two_zh_hans',
-            field=core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='investhomepage',

@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 import core.model_fields
 import core.models
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
@@ -41,7 +40,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='euexitdomesticformpage',
             name='body_text',
-            field=core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(),
         ),
         migrations.AlterField(
             model_name='euexitdomesticformpage',
@@ -56,7 +55,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='euexitinternationalformpage',
             name='body_text',
-            field=core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(),
         ),
         migrations.AlterField(
             model_name='euexitinternationalformpage',
@@ -156,7 +155,7 @@ class Migration(migrations.Migration):
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
                 ('service_name', models.CharField(choices=[('FIND_A_SUPPLIER', 'Find a Supplier'), ('EXPORT_READINESS', 'Export Readiness'), ('INVEST', 'Invest'), ('COMPONENTS', 'Components'), ('GREAT_INTERNATIONAL', 'Great International')], db_index=True, max_length=100, null=True)),
                 ('topic', models.TextField(choices=[('alerts-not-relevant', 'Guidance - Daily alerts are not relevant'), ('opportunity-no-response', 'Guidance - Export Opportunity application no response'), ('no-verification-email', 'Guidance - Email verification missing'), ('password-reset', 'Guidance - Missing password reset link'), ('companies-house-login', 'Guidance - Companies House login not working'), ('verification-letter-code', 'Guidance - Where to enter letter verification code'), ('no-verification-letter', 'Guidance - Verification letter not delivered'), ('verification-missing', 'Guidance - Verification code not delivered'), ('company-not-found', 'Guidance - Company not found')], help_text='The slug and CMS page title are inferred from the topic', unique=True)),
-                ('body', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('body', core.model_fields.MarkdownField()),
             ],
             options={
                 'abstract': False,
@@ -205,21 +204,21 @@ class Migration(migrations.Migration):
                 ('service_name', models.CharField(choices=[('FIND_A_SUPPLIER', 'Find a Supplier'), ('EXPORT_READINESS', 'Export Readiness'), ('INVEST', 'Invest'), ('COMPONENTS', 'Components')], db_index=True, max_length=100, null=True)),
                 ('campaign_heading', models.CharField(max_length=255)),
                 ('section_one_heading', models.CharField(max_length=255)),
-                ('section_one_intro', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('section_one_intro', core.model_fields.MarkdownField()),
                 ('selling_point_one_heading', models.CharField(max_length=255)),
-                ('selling_point_one_content', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('selling_point_one_content', core.model_fields.MarkdownField()),
                 ('selling_point_two_heading', models.CharField(blank=True, max_length=255, null=True)),
-                ('selling_point_two_content', core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks])),
+                ('selling_point_two_content', core.model_fields.MarkdownField(blank=True, null=True)),
                 ('selling_point_three_heading', models.CharField(blank=True, max_length=255, null=True)),
-                ('selling_point_three_content', core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks])),
+                ('selling_point_three_content', core.model_fields.MarkdownField(blank=True, null=True)),
                 ('section_one_contact_button_url', models.CharField(blank=True, max_length=255, null=True)),
                 ('section_one_contact_button_text', models.CharField(blank=True, max_length=255, null=True)),
                 ('section_two_heading', models.CharField(max_length=255)),
-                ('section_two_intro', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('section_two_intro', core.model_fields.MarkdownField()),
                 ('section_two_contact_button_url', models.CharField(blank=True, max_length=255, null=True)),
                 ('section_two_contact_button_text', models.CharField(blank=True, max_length=255, null=True)),
                 ('related_content_heading', models.CharField(max_length=255)),
-                ('related_content_intro', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('related_content_intro', core.model_fields.MarkdownField()),
                 ('cta_box_message', models.CharField(max_length=255)),
                 ('cta_box_button_url', models.CharField(max_length=255)),
                 ('cta_box_button_text', models.CharField(max_length=255)),
@@ -275,17 +274,17 @@ class Migration(migrations.Migration):
                 ('service_name', models.CharField(choices=[('FIND_A_SUPPLIER', 'Find a Supplier'), ('EXPORT_READINESS', 'Export Readiness'), ('INVEST', 'Invest'), ('COMPONENTS', 'Components')], db_index=True, max_length=100, null=True)),
                 ('landing_page_title', models.CharField(max_length=255)),
                 ('section_one_heading', models.CharField(max_length=50)),
-                ('section_one_content', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('section_one_content', core.model_fields.MarkdownField()),
                 ('selling_point_one_heading', models.CharField(max_length=255)),
-                ('selling_point_one_content', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('selling_point_one_content', core.model_fields.MarkdownField()),
                 ('selling_point_two_heading', models.CharField(blank=True, max_length=255, null=True)),
-                ('selling_point_two_content', core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks])),
+                ('selling_point_two_content', core.model_fields.MarkdownField(blank=True, null=True)),
                 ('selling_point_three_heading', models.CharField(blank=True, max_length=255, null=True)),
-                ('selling_point_three_content', core.model_fields.MarkdownField(blank=True, null=True, validators=[core.validators.slug_hyperlinks])),
+                ('selling_point_three_content', core.model_fields.MarkdownField(blank=True, null=True)),
                 ('section_two_heading', models.CharField(max_length=255)),
-                ('section_two_content', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('section_two_content', core.model_fields.MarkdownField()),
                 ('related_content_heading', models.CharField(max_length=255)),
-                ('related_content_intro', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('related_content_intro', core.model_fields.MarkdownField()),
                 ('hero_image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),
             ],
             options={
@@ -413,7 +412,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='performancedashboardnotespage',
             name='body',
-            field=core.model_fields.MarkdownField(help_text='Please include an h1 in this field e.g. # Heading level 1', validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(help_text='Please include an h1 in this field e.g. # Heading level 1'),
         ),
         migrations.AlterField(
             model_name='performancedashboardpage',
@@ -520,7 +519,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='homepage',
             name='banner_content',
-            field=core.model_fields.MarkdownField(default='', validators=[core.validators.slug_hyperlinks]),
+            field=core.model_fields.MarkdownField(default=''),
             preserve_default=False,
         ),
         migrations.AddField(

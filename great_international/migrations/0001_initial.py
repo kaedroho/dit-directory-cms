@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 import core.model_fields
 import core.models
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -37,7 +36,7 @@ class Migration(migrations.Migration):
                 ('service_name', models.CharField(choices=[('FIND_A_SUPPLIER', 'Find a Supplier'), ('EXPORT_READINESS', 'Export Readiness'), ('INVEST', 'Invest'), ('COMPONENTS', 'Components')], db_index=True, max_length=100, null=True)),
                 ('article_title', models.CharField(max_length=255)),
                 ('article_teaser', models.CharField(max_length=255)),
-                ('article_body_text', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('article_body_text', core.model_fields.MarkdownField()),
                 ('article_image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),
                 ('related_page_one', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='great_international.InternationalArticlePage')),
                 ('related_page_three', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='great_international.InternationalArticlePage')),
@@ -54,7 +53,7 @@ class Migration(migrations.Migration):
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
                 ('service_name', models.CharField(choices=[('FIND_A_SUPPLIER', 'Find a Supplier'), ('EXPORT_READINESS', 'Export Readiness'), ('INVEST', 'Invest'), ('COMPONENTS', 'Components')], db_index=True, max_length=100, null=True)),
                 ('tariffs_title', models.CharField(max_length=255)),
-                ('tariffs_description', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('tariffs_description', core.model_fields.MarkdownField()),
                 ('tariffs_link', models.URLField()),
                 ('news_title', models.CharField(max_length=255)),
                 ('tariffs_image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),

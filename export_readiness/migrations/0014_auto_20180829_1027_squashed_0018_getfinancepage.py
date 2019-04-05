@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 import core.fields
 import core.models
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -34,14 +33,14 @@ class Migration(migrations.Migration):
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
                 ('service_name', models.CharField(choices=[('FIND_A_SUPPLIER', 'Find a Supplier'), ('EXPORT_READINESS', 'Export Readiness'), ('INVEST', 'Invest')], db_index=True, max_length=100, null=True)),
                 ('breadcrumbs_label', models.CharField(max_length=50)),
-                ('hero_text', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
-                ('contact_proposition', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('hero_text', core.model_fields.MarkdownField()),
+                ('contact_proposition', core.model_fields.MarkdownField()),
                 ('contact_button', models.CharField(max_length=500)),
                 ('advantages_title', models.CharField(max_length=500)),
-                ('advantages_one', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
-                ('advantages_two', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
-                ('advantages_three', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
-                ('evidence', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks])),
+                ('advantages_one', core.model_fields.MarkdownField()),
+                ('advantages_two', core.model_fields.MarkdownField()),
+                ('advantages_three', core.model_fields.MarkdownField()),
+                ('evidence', core.model_fields.MarkdownField()),
                 ('evidence_video_embed', models.CharField(max_length=500)),
                 ('hero_image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),
                 ('ukef_logo', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),

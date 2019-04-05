@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import core.model_fields
-import core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
@@ -26,7 +25,7 @@ class Migration(migrations.Migration):
                 ('service_name', models.CharField(choices=[('FIND_A_SUPPLIER', 'Find a Supplier'), ('EXPORT_READINESS', 'Export Readiness'), ('INVEST', 'Invest'), ('COMPONENTS', 'Components'), ('GREAT_INTERNATIONAL', 'Great International')], db_index=True, max_length=100, null=True)),
                 ('display_title', models.CharField(max_length=255)),
                 ('teaser', models.CharField(max_length=255)),
-                ('section_one_content', core.model_fields.MarkdownField(validators=[core.validators.slug_hyperlinks], verbose_name='content')),
+                ('section_one_content', core.model_fields.MarkdownField(verbose_name='content')),
                 ('section_one_image_caption', models.CharField(blank=True, max_length=100, null=True, verbose_name='image caption')),
                 ('section_two_heading', models.CharField(max_length=100, verbose_name='heading')),
                 ('section_two_teaser', models.TextField(verbose_name='teaser')),
