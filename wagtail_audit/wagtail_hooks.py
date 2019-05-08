@@ -1,10 +1,23 @@
 import json
 
+from django.conf.urls import url, include
 from django.utils import timezone
 
 from wagtail.core import hooks
 
+from . import views
 from .models import PageActionLogEntry
+
+
+@hooks.register('register_admin_urls')
+def register_admin_urls():
+    urls = [
+        url('^logs/page/(\d+)/$', views.page_history, name='page_history'),
+    ]
+
+    return [
+        url('^audit/', include((urls, 'wagtail_audit'), namespace='wagtail_audit')),
+    ]
 
 
 def page_info(page):

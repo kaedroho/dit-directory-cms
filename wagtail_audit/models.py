@@ -16,3 +16,32 @@ class PageActionLogEntry(models.Model):
     published = models.BooleanField(default=False)
     unpublished = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
+
+    @property
+    def verbs(self):
+        verbs = []
+
+        if self.created:
+            verbs.append("created")
+        elif self.content_changed:
+            verbs.append("edited")
+
+        if self.published:
+            verbs.append("published")
+
+        if self.deleted:
+            verbs.append("deleted")
+        elif self.unpublished:
+            verbs.append("unpublished")
+
+        if len(verbs) > 0:
+            lastverb = verbs[-1]
+            verbs = verbs[:-1]
+
+            if verbs:
+                lastverb = ' and ' + lastverb
+
+            return ', '.join(verbs) + lastverb
+
+        else:
+            return ''

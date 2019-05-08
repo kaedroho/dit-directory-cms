@@ -1,0 +1,73 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n wagtailadmin_tags %}
+{% load l10n %}
+
+{% block titletag %}{% blocktrans with title=page.get_admin_display_title %}History of {{ title }}{% endblocktrans %}{% endblock %}
+
+{% block content %}
+    {% trans "History of" as heading_str %}
+    {% include "wagtailadmin/shared/header.html" with title=heading_str subtitle=page.get_admin_display_title icon="doc-empty-inverse" %}
+
+    <div class="nice-padding">
+        <div id="revision-results" class="revisions">
+            <table class="listing">
+                <col width="100%" />
+
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="{% url 'wagtail_audit:page_history' page.id %}?ordering={% if ordering == "time" %}-{% endif %}time" class="icon icon-arrow-{% if ordering == "time" %}up-after{% elif ordering == "-time" %}down-after{% else %}down-after{% endif %} {% if ordering == "time" or ordering == "-time" %}teal{% endif %}">
+                                {% trans 'time' %}
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if log_entries %}
+                        {% page_permissions page as page_perms %}
+                        {% for log_entry in log_entries %}
+                            <tr {% if revision == page.get_latest_revision %}class="index"{% endif %}>
+                                <td class="title">
+                                    <h2>
+                                        <span class="unbold">
+                                            {% if log_entry.user %}
+                                                <span class="avatar small"><img src="{% avatar_url revision.user size=25 %}" /></span>{{ log_entry.user }}
+                                            {% else %}
+                                                Nobody
+                                            {% endif %}
+                                        </span>
+
+                                        {{ log_entry.verbs }}
+
+                                        at {{ log_entry.time }}
+                                    </h2>
+
+                                    {% with log_entry.revision as revision %}
+                                        <ul class="actions">
+                                            <li><a href="{% url 'wagtailadmin_pages:revisions_view' page.id revision.id %}" class="button button-small button-secondary" target="_blank" rel="noopener noreferrer">{% trans 'Preview' %}</a></li>
+                                            {% if log_entry.content_changed %}
+                                                {% if revision == page.get_latest_revision %}
+                                                    <li><a href="{% url 'wagtailadmin_pages:edit' page.id %}" class="button button-small button-secondary">{% trans 'Edit' %}</a></li>
+                                                {% else %}
+                                                    <li><a href="{% url 'wagtailadmin_pages:revisions_revert' page.id revision.id %}" class="button button-small button-secondary">{% trans 'Review this revision' %}</a></li>
+                                                {% endif %}
+                                                {% if log_entry.previous_changed %}
+                                                    <li><a href="{% url 'wagtailadmin_pages:revisions_compare' page.id log_entry.previous_changed.revision_id log_entry.revision_id %}" class="button button-small button-secondary">{% trans 'Compare with previous version' %}</a></li>
+                                                {% endif %}
+                                            {% endif %}
+                                            {% if revision.approved_go_live_at and page_perms.can_unschedule %}
+                                                <li><a href="{% url 'wagtailadmin_pages:revisions_unschedule' page.id revision.id %}" class="button button-small button-secondary">{% trans 'Cancel scheduled publish' %}</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    {% endwith %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        {% block no_results %}<tr><td class="no-results-message"><p>{% trans 'No logs of this page exist' %}</p></td></tr>{% endblock %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
