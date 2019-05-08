@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     'activitystream.apps.ActivityStreamConfig',
     'django_filters',
     'authbroker_client',
+    'wagtail_audit',
 ]
 
 MIDDLEWARE_CLASSES = [
