@@ -45,4 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
     interceptClickEvent(saveDraftButton, askForComment);
     interceptClickEvent(publishButton, askForComment);
     interceptClickEvent(submitButton, askForComment);
+
+    // HACK: Replace "Revisions" with "History"
+    let revisionsLink = document.querySelector('footer .meta > .modified a');
+    if (revisionsLink) {
+        revisionsLink.innerHTML = 'History';
+        revisionsLink.href = revisionsLink.href.replace('/admin/pages/', '/admin/audit/logs/page/').replace('/revisions/', '/');
+    }
 });
