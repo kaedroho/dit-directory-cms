@@ -1,7 +1,9 @@
 import json
 
 from django.conf.urls import url, include
+from django.templatetags.static import static
 from django.utils import timezone
+from django.utils.html import format_html, format_html_join
 
 from wagtail.core import hooks
 
@@ -18,6 +20,17 @@ def register_admin_urls():
     return [
         url('^audit/', include((urls, 'wagtail_audit'), namespace='wagtail_audit')),
     ]
+
+
+@hooks.register('insert_editor_js')
+def editor_js():
+    js_files = [
+        'wagtail_audit/page-editor-plugin.js',
+    ]
+    js_includes = format_html_join('\n', '<script src="{0}"></script>',
+        ((static(filename),) for filename in js_files)
+    )
+    return js_includes
 
 
 def page_info(page):
@@ -56,16 +69,34 @@ def after_edit_page(request, page):
     else:
         action = 'save-draft'
 
+    # Check if anything has changed
+    revision = page.get_latest_revision()
+    previous_revision = revision.get_previous()
+    revision_content = json.loads(revision.content_json)
+    previous_revision_content = json.loads(revision.content_json)
+    for ignored_field in ['live', 'has_unpublished_changes', 'url_path', 'path', 'depth', 'numchild', 'latest_revision_created_at', 'live_revision', 'draft_title', 'owner', 'locked']:
+        del revision_content[ignored_field]
+        del previous_revision_content[ignored_field]
+    content_changed = revision_content != previous_revision_content
+
+    data = {
+        'page': page_info(page),
+    }
+
+    if content_changed:
+        # Comment must be set if content has changed, or crash
+        # TODO: Replace this with a nice error message. That must be raised
+        # from before_edit_page though
+        data['comment'] = request.POST['wagtailaudit_comment']
+
     PageActionLogEntry.objects.create(
         page=page,
         revision=page.get_latest_revision(),
         action=action,
-        data=json.dumps({
-            'page': page_info(page),
-        }),
+        data=json.dumps(data),
         user=request.user,
         time=timezone.now(),
-        content_changed=True,  # TODO: are there any changes made?
+        content_changed=content_changed,
         published=action == 'publish',
     )
 
