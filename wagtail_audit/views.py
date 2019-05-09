@@ -10,25 +10,18 @@ from wagtail.utils.pagination import paginate
 def page_history(request, page_id):
     page = get_object_or_404(Page, id=page_id).specific
 
-    # Get page ordering
-    ordering = request.GET.get('ordering', '-time')
-    if ordering not in ['time', '-time', ]:
-        ordering = '-time'
-
-    log_entries = list(page.action_log_entries.order_by(ordering))
+    log_entries = list(page.action_log_entries.order_by('time'))
 
     previous_changed = None
     for log_entry in log_entries:
         log_entry.previous_changed = previous_changed
 
-        if log_entry.content_changed:
+        if log_entry.created or log_entry.content_changed:
             previous_changed = log_entry
 
-    paginator, log_entries = paginate(request, log_entries)
+    log_entries.reverse()
 
     return render(request, 'wagtail_audit/page_history.html', {
         'page': page,
-        'ordering': ordering,
-        'pagination_query_params': "ordering=%s" % ordering,
         'log_entries': log_entries,
     })

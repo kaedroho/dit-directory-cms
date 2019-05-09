@@ -1,6 +1,7 @@
 {% extends "wagtailadmin/base.html" %}
 {% load i18n wagtailadmin_tags %}
 {% load l10n %}
+{% load humanize %}
 
 {% block titletag %}{% blocktrans with title=page.get_admin_display_title %}History of {{ title }}{% endblocktrans %}{% endblock %}
 
@@ -13,15 +14,6 @@
             <table class="listing">
                 <col width="100%" />
 
-                <thead>
-                    <tr>
-                        <th>
-                            <a href="{% url 'wagtail_audit:page_history' page.id %}?ordering={% if ordering == "time" %}-{% endif %}time" class="icon icon-arrow-{% if ordering == "time" %}up-after{% elif ordering == "-time" %}down-after{% else %}down-after{% endif %} {% if ordering == "time" or ordering == "-time" %}teal{% endif %}">
-                                {% trans 'time' %}
-                            </a>
-                        </th>
-                    </tr>
-                </thead>
                 <tbody>
                     {% if log_entries %}
                         {% page_permissions page as page_perms %}
@@ -39,20 +31,20 @@
 
                                         {{ log_entry.verbs }}
 
-                                        at {{ log_entry.time }}
+                                        {{ log_entry.time|naturaltime }}
                                     </h2>
 
                                     {% with log_entry.revision as revision %}
                                         <ul class="actions">
-                                            <li><a href="{% url 'wagtailadmin_pages:revisions_view' page.id revision.id %}" class="button button-small button-secondary" target="_blank" rel="noopener noreferrer">{% trans 'Preview' %}</a></li>
-                                            {% if log_entry.content_changed %}
+                                            <li><a href="{% url 'wagtailadmin_pages:revisions_view' page.id revision.id %}" class="button button-small button-secondary" target="_blank" rel="noopener noreferrer">{% trans 'View' %}</a></li>
+                                            {% if log_entry.created or log_entry.content_changed %}
+                                                {% if log_entry.previous_changed %}
+                                                    <li><a href="{% url 'wagtailadmin_pages:revisions_compare' page.id log_entry.previous_changed.revision_id log_entry.revision_id %}" class="button button-small button-secondary">{% trans 'View changes' %}</a></li>
+                                                {% endif %}
                                                 {% if revision == page.get_latest_revision %}
                                                     <li><a href="{% url 'wagtailadmin_pages:edit' page.id %}" class="button button-small button-secondary">{% trans 'Edit' %}</a></li>
                                                 {% else %}
-                                                    <li><a href="{% url 'wagtailadmin_pages:revisions_revert' page.id revision.id %}" class="button button-small button-secondary">{% trans 'Review this revision' %}</a></li>
-                                                {% endif %}
-                                                {% if log_entry.previous_changed %}
-                                                    <li><a href="{% url 'wagtailadmin_pages:revisions_compare' page.id log_entry.previous_changed.revision_id log_entry.revision_id %}" class="button button-small button-secondary">{% trans 'Compare with previous version' %}</a></li>
+                                                    <li><a href="{% url 'wagtailadmin_pages:revisions_revert' page.id revision.id %}" class="button button-small button-secondary">{% trans 'Revert to this version' %}</a></li>
                                                 {% endif %}
                                             {% endif %}
                                             {% if revision.approved_go_live_at and page_perms.can_unschedule %}

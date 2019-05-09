@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.contenttypes',
     'django.contrib.messages',
+    'django.contrib.humanize',
     'raven.contrib.django.raven_compat',
     'django.contrib.sessions',
     'directory_healthcheck',
