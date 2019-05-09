@@ -60,6 +60,8 @@ def after_create_page(request, page):
 
 @hooks.register('after_edit_page', order=-1)
 def after_edit_page(request, page):
+    revision = page.get_latest_revision()
+
     if bool(request.POST.get('action-submit')):
         action = 'submit-for-moderation'
     elif bool(request.POST.get('revision')):
@@ -70,14 +72,16 @@ def after_edit_page(request, page):
         action = 'save-draft'
 
     # Check if anything has changed
-    revision = page.get_latest_revision()
-    previous_revision = revision.get_previous()
-    revision_content = json.loads(revision.content_json)
-    previous_revision_content = json.loads(revision.content_json)
-    for ignored_field in ['live', 'has_unpublished_changes', 'url_path', 'path', 'depth', 'numchild', 'latest_revision_created_at', 'live_revision', 'draft_title', 'owner', 'locked']:
-        del revision_content[ignored_field]
-        del previous_revision_content[ignored_field]
-    content_changed = revision_content != previous_revision_content
+    if action in ['submit-for-moderation', 'publish']:
+        previous_revision = revision.get_previous()
+        revision_content = json.loads(revision.content_json)
+        previous_revision_content = json.loads(revision.content_json)
+        for ignored_field in ['live', 'has_unpublished_changes', 'url_path', 'path', 'depth', 'numchild', 'latest_revision_created_at', 'live_revision', 'draft_title', 'owner', 'locked']:
+            del revision_content[ignored_field]
+            del previous_revision_content[ignored_field]
+        content_changed = revision_content != previous_revision_content
+    else:
+        content_changed = True
 
     data = {
         'page': page_info(page),
@@ -91,7 +95,7 @@ def after_edit_page(request, page):
 
     PageActionLogEntry.objects.create(
         page=page,
-        revision=page.get_latest_revision(),
+        revision=revision,
         action=action,
         data=json.dumps(data),
         user=request.user,
