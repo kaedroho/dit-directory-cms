@@ -15,6 +15,7 @@ from .models import PageActionLogEntry
 def register_admin_urls():
     urls = [
         url('^logs/page/(\d+)/$', views.page_history, name='page_history'),
+        url('^logs/page/(\d+)/(\d+)/$', views.log_entry, name='log_entry'),
     ]
 
     return [

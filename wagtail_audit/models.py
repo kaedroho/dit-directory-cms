@@ -1,5 +1,8 @@
+import json
+
 from django.conf import settings
 from django.db import models
+from django.utils.functional import cached_property
 
 
 class PageActionLogEntry(models.Model):
@@ -45,3 +48,10 @@ class PageActionLogEntry(models.Model):
 
         else:
             return ''
+
+    @cached_property
+    def data_json(self):
+        if self.data:
+            return json.loads(self.data)
+        else:
+            return {}

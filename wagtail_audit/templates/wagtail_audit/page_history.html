@@ -21,26 +21,29 @@
                             <tr {% if revision == page.get_latest_revision %}class="index"{% endif %}>
                                 <td class="title">
                                     <h2>
-                                        <span class="unbold">
-                                            {% if log_entry.user %}
-                                                <span class="avatar small"><img src="{% avatar_url revision.user size=25 %}" /></span>{{ log_entry.user }}
-                                            {% else %}
-                                                Nobody
-                                            {% endif %}
-                                        </span>
+                                        <a href="{% url 'wagtail_audit:log_entry' page.id log_entry.id %}">
+                                            <span class="unbold">
+                                                {% if log_entry.user %}
+                                                    <span class="avatar small"><img src="{% avatar_url revision.user size=25 %}" /></span>{{ log_entry.user }}
+                                                {% else %}
+                                                    Nobody
+                                                {% endif %}
+                                            </span>
 
-                                        {{ log_entry.verbs }}
+                                            {{ log_entry.verbs }}
 
-                                        {{ log_entry.time|naturaltime }}
+                                            {{ log_entry.time|naturaltime }}
+                                        </a>
                                     </h2>
+
+                                    {% if log_entry.data_json.comment %}
+                                        <p style="padding-top: 5px;"><i>{{ log_entry.data_json.comment }}</i></p>
+                                    {% endif %}
 
                                     {% with log_entry.revision as revision %}
                                         <ul class="actions">
                                             <li><a href="{% url 'wagtailadmin_pages:revisions_view' page.id revision.id %}" class="button button-small button-secondary" target="_blank" rel="noopener noreferrer">{% trans 'View' %}</a></li>
                                             {% if log_entry.created or log_entry.content_changed %}
-                                                {% if log_entry.previous_changed %}
-                                                    <li><a href="{% url 'wagtailadmin_pages:revisions_compare' page.id log_entry.previous_changed.revision_id log_entry.revision_id %}" class="button button-small button-secondary">{% trans 'View changes' %}</a></li>
-                                                {% endif %}
                                                 {% if revision == page.get_latest_revision %}
                                                     <li><a href="{% url 'wagtailadmin_pages:edit' page.id %}" class="button button-small button-secondary">{% trans 'Edit' %}</a></li>
                                                 {% else %}

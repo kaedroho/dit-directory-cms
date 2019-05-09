@@ -1,0 +1,106 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n wagtailadmin_tags %}
+{% load l10n %}
+{% load humanize %}
+{% load static %}
+
+{% block titletag %}{% blocktrans with title=page.get_admin_display_title %}History of {{ title }}{% endblocktrans %}{% endblock %}
+
+{% block content %}
+    {% trans "History of" as heading_str %}
+    {% include "wagtailadmin/shared/header.html" with title=heading_str subtitle=page.get_admin_display_title icon="doc-empty-inverse" %}
+
+    <div class="nice-padding">
+        <h2>
+            <span class="unbold">
+                {% if log_entry.user %}
+                    <span class="avatar small"><img src="{% avatar_url revision.user size=25 %}" /></span>{{ log_entry.user }}
+                {% else %}
+                    Nobody
+                {% endif %}
+            </span>
+
+            {{ log_entry.verbs }}
+
+            {{ log_entry.time|naturaltime }}
+        </h2>
+
+        {% if log_entry.data_json.comment %}
+            <p style="padding-top: 5px;"><i>{{ log_entry.data_json.comment }}</i></p>
+        {% endif %}
+
+        {% if comparison %}
+            <h3>Changes</h3>
+            <table class="listing">
+                <col width="15%" />
+                <col />
+
+                <thead>
+                    <tr>
+                        <th>{% trans "Fields" %}</th>
+                        <th>{% trans "Changes" %}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for comp in comparison %}
+                        <tr>
+                            <td class="title" valign="top">
+                                <h2>{{ comp.field_label }}:</h2>
+                            </td>
+                            <td class="comparison{% if not comp.is_field %} no-padding{% endif %}">
+                                {% if comp.is_field %}
+                                    {{ comp.htmldiff }}
+                                {% elif comp.is_child_relation %}
+                                    {% for child_comp in comp.get_child_comparisons %}
+                                        <div class="comparison__child-object {% if child_comp.is_addition %}addition{% elif child_comp.is_deletion %}deletion{% endif %}">
+                                            {% with child_comp.get_position_change as move %}
+                                                {% if move %}
+                                                <div class="help-block help-info">
+                                                    <p>
+                                                        {% if move > 0 %}
+                                                            {% blocktrans count counter=move %}
+                                                                Moved down 1 place.
+                                                            {% plural %}
+                                                                Moved down {{ counter }} places.
+                                                            {% endblocktrans %}
+                                                        {% elif move < 0 %}
+                                                            {% blocktrans count counter=move|abs %}
+                                                                Moved up 1 place.
+                                                            {% plural %}
+                                                                Moved up {{ counter }} places.
+                                                            {% endblocktrans %}
+                                                        {% endif %}
+                                                    </p>
+                                                </div>
+                                                {% endif %}
+                                            {% endwith %}
+
+                                            <dl class="comparison__list">
+                                                {% for field_comp in child_comp.get_field_comparisons %}
+                                                    <dt>{{ field_comp.field_label }}</dt>
+                                                    <dd>{{ field_comp.htmldiff }}</dd>
+                                                {% endfor %}
+                                            </dl>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2" class="no-results-message">
+                                <p>{% trans "There are no differences between these two revisions" %}</p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'wagtailadmin/css/layouts/compare-revisions.css' %}" type="text/css" />
+{% endblock %}

@@ -6,9 +6,37 @@ from wagtail.core.models import Page
 from wagtail.utils.pagination import paginate
 
 
+def get_comparison(page, revision_a, revision_b):
+    comparison = page.get_edit_handler().get_comparison()
+    comparison = [comp(revision_a, revision_b) for comp in comparison]
+    comparison = [comp for comp in comparison if comp.has_changed()]
+
+    return comparison
+
+
+@user_passes_test(user_has_any_page_permission)
+def log_entry(request, page_id, log_entry_id):
+    page = get_object_or_404(Page, id=page_id)
+    log_entry = get_object_or_404(page.action_log_entries.all(), id=log_entry_id)
+
+    if log_entry.content_changed:
+        previous_log_entry = page.action_log_entries.filter(content_changed=True, time__lt=log_entry.time).order_by('-time').first()
+        comparison = get_comparison(page, previous_log_entry.revision.as_page_object(), log_entry.revision.as_page_object())
+    else:
+        comparison = None
+
+    print(comparison)
+
+    return render(request, 'wagtail_audit/log_entry.html', {
+        'page': page,
+        'log_entry': log_entry,
+        'comparison': comparison,
+    })
+
+
 @user_passes_test(user_has_any_page_permission)
 def page_history(request, page_id):
-    page = get_object_or_404(Page, id=page_id).specific
+    page = get_object_or_404(Page, id=page_id)
 
     log_entries = list(page.action_log_entries.order_by('time'))
 
