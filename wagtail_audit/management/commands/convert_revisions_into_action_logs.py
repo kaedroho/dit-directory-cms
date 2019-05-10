@@ -27,18 +27,20 @@ class Command(BaseCommand):
 
             if not PageActionLogEntry.objects.filter(revision=revision).exists():
                 content_changed = not new_page and previous_revision_content != content
+                published = revision.id == revision.page.live_revision_id
 
-                PageActionLogEntry.objects.create(
-                    page_id=revision.page_id,
-                    revision=revision,
-                    action='converted-revision',
-                    data='',
-                    user=revision.user,
-                    time=revision.created_at,
-                    created=new_page,
-                    content_changed=content_changed,
-                    published=revision.id == revision.page.live_revision_id,
-                )
+                if content_changed or published:
+                    PageActionLogEntry.objects.create(
+                        page_id=revision.page_id,
+                        revision=revision,
+                        action='converted-revision',
+                        data='',
+                        user=revision.user,
+                        time=revision.created_at,
+                        created=new_page,
+                        content_changed=content_changed,
+                        published=revision.id == revision.page.live_revision_id,
+                    )
 
             previous_revision_content = content
 
