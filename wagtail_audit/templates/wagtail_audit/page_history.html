@@ -18,7 +18,7 @@
                     {% if log_entries %}
                         {% page_permissions page as page_perms %}
                         {% for log_entry in log_entries %}
-                            <tr {% if revision == page.get_latest_revision %}class="index"{% endif %}>
+                            <tr>
                                 <td class="title">
                                     <h2>
                                         <a href="{% url 'wagtail_audit:log_entry' page.id log_entry.id %}">
@@ -26,7 +26,7 @@
                                                 {% if log_entry.user %}
                                                     <span class="avatar small"><img src="{% avatar_url revision.user size=25 %}" /></span>{{ log_entry.user }}
                                                 {% else %}
-                                                    Nobody
+                                                    [Deleted]
                                                 {% endif %}
                                             </span>
 

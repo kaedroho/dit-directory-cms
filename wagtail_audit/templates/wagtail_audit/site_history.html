@@ -1,0 +1,56 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n wagtailadmin_tags %}
+{% load l10n %}
+{% load humanize %}
+
+{% block titletag %}Audit log{% endblock %}
+
+{% block content %}
+    {% trans "Audit log" as heading_str %}
+    {% include "wagtailadmin/shared/header.html" with title=heading_str icon="doc-empty-inverse" %}
+
+    <div class="nice-padding">
+        <div id="revision-results" class="revisions">
+            <table class="listing">
+                <col width="100%" />
+
+                <tbody>
+                    {% if log_entries %}
+                        {% for log_entry in log_entries %}
+                            <tr>
+                                <td class="title">
+                                    <h2>
+                                        <a href="{% url 'wagtail_audit:log_entry' log_entry.page_id log_entry.id %}">
+                                            <span class="unbold">
+                                                {% if log_entry.user %}
+                                                    <span class="avatar small"><img src="{% avatar_url revision.user size=25 %}" /></span>{{ log_entry.user }}
+                                                {% else %}
+                                                    [Deleted]
+                                                {% endif %}
+                                            </span>
+
+                                            {{ log_entry.verbs }}
+
+                                            "{{ log_entry.page.title }}"
+
+                                            {{ log_entry.time|naturaltime }}
+                                        </a>
+                                    </h2>
+
+                                    {% if log_entry.data_json.comment %}
+                                        <p style="padding-top: 5px;"><i>{{ log_entry.data_json.comment }}</i></p>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    {% else %}
+                        {% block no_results %}<tr><td class="no-results-message"><p>{% trans 'No logs exist' %}</p></td></tr>{% endblock %}
+                    {% endif %}
+                </tbody>
+            </table>
+
+            {% include "wagtailadmin/shared/pagination_nav.html" with items=log_entries linkurl="wagtail_audit:site_history" %}
+        </div>
+    </div>
+{% endblock %}

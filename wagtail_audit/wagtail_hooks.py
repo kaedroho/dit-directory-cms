@@ -2,8 +2,11 @@ import json
 
 from django.conf.urls import url, include
 from django.templatetags.static import static
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html, format_html_join
+
+from wagtail.admin.menu import MenuItem
 
 from wagtail.core import hooks
 
@@ -14,6 +17,7 @@ from .models import PageActionLogEntry
 @hooks.register('register_admin_urls')
 def register_admin_urls():
     urls = [
+        url('^logs/$', views.site_history, name='site_history'),
         url('^logs/page/(\d+)/$', views.page_history, name='page_history'),
         url('^logs/page/(\d+)/(\d+)/$', views.log_entry, name='log_entry'),
     ]
@@ -32,6 +36,11 @@ def editor_js():
         ((static(filename),) for filename in js_files)
     )
     return js_includes
+
+
+@hooks.register('register_admin_menu_item')
+def register_menu_item():
+  return MenuItem('Audit log', reverse('wagtail_audit:site_history'), classnames='icon icon-folder-inverse', order=10000)
 
 
 def page_info(page):

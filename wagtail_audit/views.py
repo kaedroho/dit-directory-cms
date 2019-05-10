@@ -5,6 +5,8 @@ from wagtail.admin.utils import user_has_any_page_permission, user_passes_test
 from wagtail.core.models import Page
 from wagtail.utils.pagination import paginate
 
+from .models import PageActionLogEntry
+
 
 def get_comparison(page, revision_a, revision_b):
     comparison = page.get_edit_handler().get_comparison()
@@ -24,8 +26,6 @@ def log_entry(request, page_id, log_entry_id):
         comparison = get_comparison(page, previous_log_entry.revision.as_page_object(), log_entry.revision.as_page_object())
     else:
         comparison = None
-
-    print(comparison)
 
     return render(request, 'wagtail_audit/log_entry.html', {
         'page': page,
@@ -51,5 +51,16 @@ def page_history(request, page_id):
 
     return render(request, 'wagtail_audit/page_history.html', {
         'page': page,
+        'log_entries': log_entries,
+    })
+
+
+@user_passes_test(user_has_any_page_permission)
+def site_history(request):
+    log_entries = PageActionLogEntry.objects.order_by('-time')
+    paginator, log_entries = paginate(request, log_entries, per_page=50)
+
+    return render(request, 'wagtail_audit/site_history.html', {
+        'paginator': paginator,
         'log_entries': log_entries,
     })
