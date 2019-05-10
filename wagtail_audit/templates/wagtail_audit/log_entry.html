@@ -29,6 +29,24 @@
             <p style="padding-top: 5px;"><i>{{ log_entry.data_json.comment }}</i></p>
         {% endif %}
 
+        <a href="{% url 'wagtail_audit:page_history' page.id %}" class="button button-small button-secondary">{% trans 'View full page history' %}</a>
+
+        {% with log_entry.revision as revision %}
+            <a href="{% url 'wagtailadmin_pages:edit' page.id %}" class="button button-small button-secondary">{% trans 'Edit page' %}</a>
+
+            {% if revision %}
+                <a href="{% url 'wagtailadmin_pages:revisions_view' page.id revision.id %}" class="button button-small button-secondary" target="_blank" rel="noopener noreferrer">{% trans 'View page at this revision' %}</a>
+            {% endif %}
+            {% if log_entry.created or log_entry.content_changed %}
+                {% if revision != page.get_latest_revision %}
+                    <a href="{% url 'wagtailadmin_pages:revisions_revert' page.id revision.id %}" class="button button-small button-secondary">{% trans 'Revert page to this version' %}</a>
+                {% endif %}
+            {% endif %}
+            {% if revision.approved_go_live_at and page_perms.can_unschedule %}
+                <a href="{% url 'wagtailadmin_pages:revisions_unschedule' page.id revision.id %}" class="button button-small button-secondary">{% trans 'Cancel scheduled publish' %}</a>
+            {% endif %}
+        {% endwith %}
+
         {% if comparison %}
             <h3>Changes</h3>
             <table class="listing">
