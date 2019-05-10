@@ -1,6 +1,15 @@
-function askForComment(submit) {
+function askForComment(submit, cancel) {
     // TODO: Don't show if only publishing/submitting and no changes have been made
-    let comment = prompt("Please enter a comment to describe the changes you have made");
+    let comment = null;
+    while (!comment) {
+        comment = prompt("Please enter a comment to describe the changes you have made");
+
+        if (comment === null) {
+            // User pressed cancel
+            cancel();
+            return;
+        }
+    }
 
     let commentInput = document.createElement('input');
     commentInput.type = 'hidden';
@@ -26,9 +35,16 @@ function interceptClickEvent(element, fn) {
             element.dispatchEvent(event);
         };
 
-        fn(submit);
+        let cancel = () => {
+            // Don't let wagtail see that this button was clicked
+            e.stopImmediatePropagation();
+        };
+
+        fn(submit, cancel);
 
         e.preventDefault();
+
+        return false;
     };
 
     element.addEventListener('click', eventListener);
